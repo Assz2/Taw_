@@ -2,7 +2,3 @@
 Taw_.code-workspace
 /Backend/dist
 /Backend/node_modules
-/Frontend/node_modules
-/Frontend//dist/out-tsc
-/Frontend/.vscode
-/Frontend/taw-frontend/.npmrc

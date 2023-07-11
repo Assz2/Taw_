@@ -159,7 +159,9 @@ passport.use(new passportHTTP.BasicStrategy(
                 return done({statusCode: 500, error: true, errormessage: err});
             }            
                 return done(null, user);
-        })
+        }).catch((err) => {
+            return done({statusCode: 500, error: true, errormessage: err});
+        });
     }
 ));
 
@@ -206,7 +208,7 @@ app.get('/users', auth, authCashier, (req, res) => {
 });
 
 app.get('/users/:name', auth, authCashier, (req: any, res) => {
-    user.getModel().findOne(req.params.name).then((data) => {
+    user.getModel().findOne({name: req.params.name}).then((data) => {
         return res.status(200).json({error: false, errormessage: "", user: data});
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
@@ -214,11 +216,12 @@ app.get('/users/:name', auth, authCashier, (req: any, res) => {
 });
 
 app.delete('/users/:name', auth, authCashier, (req: any, res) => {
-    user.getModel().findOneAndDelete(req.params.name).then((data) => {
+    console.log("Deleting user: " + req.params.name);
+    user.getModel().findOneAndDelete( {name: req.params.name } ).then((data) => {
         return res.status(200).json({error: false, errormessage: "", user: data});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    });
+    });//.catch((err) => {
+        //return res.status(500).json({error: true, errormessage: err});
+    //});
 });
 
 
