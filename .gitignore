@@ -1,4 +1,4 @@
-/Backend/.env
 Taw_.code-workspace
-/Backend/dist
-/Backend/node_modules
+Backend/dist/
+Backend/node_modules/
+Backend/.env/
