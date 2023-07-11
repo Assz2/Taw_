@@ -7,7 +7,6 @@
  * 
  *   /register                   None                         POST                     Registers a new user (authorization required) (only cashier can register new users)
  *   /login                      None                         POST                     Logs in a user
- *   /logout                     None                         POST                     Logs out a user
  * 
  *   /users                      ?role=                       GET                      Returns a list of all users eventually filtered by role  (authorization required) (only cashier can get users by role)
  *   /users/:name                None                         GET                      Returns a user by id (authorization required) (only cashier can get users by id)
@@ -177,19 +176,6 @@ app.post('/login', passport.authenticate('basic', {session: false}), (req: any, 
     console.log("Login from: " + req.user.name);
     var tokenSigned = jwt.sign(_token, secret, {expiresIn: '4h'});
     return res.status(200).json({error: false, errormessage: "", token: tokenSigned});
-});
-
-
-
-app.post('/logout', auth, (req: any, res) => {
-    try{
-        const invalidate = "."; 
-        jwt.sign(invalidate, secret);
-        return res.status(200).json({error: false, errormessage: "", token: invalidate});
-    } catch(err){
-        console.log(err);
-        return res.status(500).json({error: true, errormessage: err});
-    }
 });
 
 
