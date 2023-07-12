@@ -14,12 +14,16 @@ export class TableListComponent implements OnInit {
   constructor(private router: Router, private ts: TableHttpService, public us: UserHttpService) { }
 
   ngOnInit(){
-    
+    this.getTables();
   }
 
-  getTables(filter?: string){
+  public getTables(filter?: string){
     this.ts.getTables(filter).subscribe({
       next: (data) => {
+        if(Array.isArray(data))
+          this.tables = data;
+        else
+          this.tables = [data];
         console.log("Received tables: " + JSON.stringify(data));
       },
       error: (err) => {
