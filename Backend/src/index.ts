@@ -32,6 +32,9 @@
  * 
  *   /tables                     ?free                        GET                      Returns a list of all tables eventually filtered as free tables (authorization required)
  *                               ?occupied                    GET                      Returns a list of all tables eventually filtered as occupied tables (authorization required)
+ * 
+ *   /tables                     None                         POST                     Creates a new table (authorization required) (only cashier can create new tables)   
+ * 
  *   /tables/:num                None                         GET                      Returns a table by id (authorization required) (only cashier can get tables by id)
  *   /tables/:num                None                         DELETE                   Delete a table by id (authorization required) (only cashier can delete tables by id)
  * 
@@ -321,7 +324,8 @@ app.get('/daily', auth, authCashier, (req, res) => {
 });
 
 
-app.get('/tables', auth, (req, res) => {
+app.route('/tables')
+.get( auth, (req, res) => {
     var filter = {};
     if(req.query.free){
         filter = {occ: false};
@@ -336,7 +340,17 @@ app.get('/tables', auth, (req, res) => {
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
     });
+})
+.post(auth, authCashier, (req, res) => {
+    var newTable = req.body;
+    table.getModel().create(newTable).then((data) => {
+        return res.status(200).json({error: false, errormessage: "", id: data._id});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
 });
+
+
 
 app.route('/tables/:num')
 .get(auth, authCashier, (req, res) => {
