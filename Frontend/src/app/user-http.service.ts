@@ -26,7 +26,7 @@ export interface User {
 @Injectable()
 export class UserHttpService {
   private token: string = "";
-  public url = "http://localhost:4200";
+  public url = "http://localhost:3000";
 
   constructor(private htpp: HttpClient) { 
     console.log("UserService instantiated");
@@ -43,14 +43,13 @@ export class UserHttpService {
 
   login(name: string, password: string, rememeber: boolean): Observable<any> {
     console.log("Login attempt from: " + name + ", " + password);
-    const options = {
-      headers: new HttpHeaders({
-        authorization: 'Basic ' + btoa(name + ':' + password),
-        'cache-control': 'no-cache',
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.htpp.post<ReceivedToken>(this.url + '/login', options).pipe(
+    const headers = new HttpHeaders({
+      authorization: 'Basic ' + btoa(name + ':' + password),
+      'cache-control': 'no-cache',
+      'Content-Type': 'application/json'
+    });
+    const options = { headers: headers };
+    return this.htpp.post<ReceivedToken>(this.url + '/login', {}, options).pipe(
       tap((data: ReceivedToken) => {
         console.log("Received token: " + data.token);
         this.token = data.token;
@@ -80,6 +79,7 @@ export class UserHttpService {
       }
     ));
   };
+  
 
   getToken(): string {
     return this.token;
