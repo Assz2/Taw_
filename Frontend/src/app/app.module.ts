@@ -8,12 +8,15 @@ import { AppComponent } from './app.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 
 import { UserHttpService } from './user-http.service';
+import { TableListComponent } from './table-list/table-list.component';
+
 
 @NgModule({
   // Components
   declarations: [
     AppComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    TableListComponent
   ],
   // Modules
   imports: [
@@ -24,6 +27,8 @@ import { UserHttpService } from './user-http.service';
   providers: [
     { provide: UserHttpService, useClass: UserHttpService}
   ],
+
+  exports: [ AppRoutingModule ],
   // Root component
   bootstrap: [AppComponent]
 })
