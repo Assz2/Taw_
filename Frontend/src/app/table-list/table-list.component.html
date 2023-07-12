@@ -1,1 +1,10 @@
+<!--
 <app-table-editor (update)="getTables()"></app-table-editor>
+-->
+
+<div *ngFor="let table of tables" class="tb" style="margin: 5px;">
+    <div class="tb-body">
+        <h5 class="tb-name"><i class="fas fa-ico"></i>&nbsp;{{table.number}}</h5>
+        <h6 class="tb-seats">{{table.seats}}</h6>
+    </div>
+</div>
