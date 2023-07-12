@@ -8,9 +8,9 @@ import { UserHttpService } from '../user-http.service';
   styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit{
-
+  
   public errMessage = undefined;
-  constructor( private us: UserHttpService, private router: Router  ) { }
+  constructor( private router: Router, private us: UserHttpService  ) { }
   
     
   ngOnInit(){
@@ -30,4 +30,5 @@ export class UserLoginComponent implements OnInit{
       }
     });
   }
+  
 }

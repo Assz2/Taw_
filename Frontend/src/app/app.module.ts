@@ -12,17 +12,21 @@ import { TableListComponent } from './table-list/table-list.component';
 
 
 @NgModule({
+
+  // Modules
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule
+  ],
+
   // Components
   declarations: [
     AppComponent,
     UserLoginComponent,
     TableListComponent
   ],
-  // Modules
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  
   // Services
   providers: [
     { provide: UserHttpService, useClass: UserHttpService}

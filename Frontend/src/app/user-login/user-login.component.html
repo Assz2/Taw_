@@ -1,25 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Login</title>
-  <link rel="stylesheet" type="text.css" href="user-login.component.css">
-</head>
+<div class="container" style="width: 400px; margin-top: 200px;" >
+  <div class="form-signin text-center loginform ">
+    <i class="fas fa-envelope loginlogo"></i>
 
-<body>
-  <div class="login-box">
-    <h2>LOGIN</h2>
-    <form>
-      <label for="username"></label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
 
-      <label for="password"></label>
-      <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      
-      <label for="remember">remember me: &nbsp; 
-        <input type="checkbox" id="remember" name="remember">
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" #mailtxt id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="Password" required>
+    
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" #checkr value="remember-me"> Remember me
       </label>
-      <input type="submit" value="Login">
-    </form>
+    </div>
+    
+    <div *ngIf="errMessage" class="alert alert-danger" role="alert">
+      Login error: {{errMessage}}
+    </div>
+    
+    <button class="btn btn-lg btn-primary btn-block" (click)="login( mailtxt.value, passwdtxt.value, checkr.checked );" >Sign in</button>
+    <p><a routerLink="/signup">Sign-up new user</a></p>
+    
   </div>
-</body>
-</html>
+</div>

@@ -3,14 +3,17 @@ import { CommonModule } from '@angular/common';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
+import { TableListComponent } from './table-list/table-list.component';
+import { BrowserModule } from '@angular/platform-browser';
 
 const routes: Routes = [
-  { path: "", redirectTo: "/login", pathMatch: "full" },
-  { path: "login",  component: UserLoginComponent },
+  { path:'', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login',  component: UserLoginComponent },
+  { path: 'tables',  component: TableListComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [BrowserModule, RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

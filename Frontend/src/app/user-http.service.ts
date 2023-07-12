@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import jwt_decode from 'jwt-decode';
@@ -26,20 +26,20 @@ export interface User {
 @Injectable()
 export class UserHttpService {
   private token: string = "";
-  public url = "http://127.0.0.1:3000";
+  public url = "http://localhost:4200";
 
   constructor(private htpp: HttpClient) { 
     console.log("UserService instantiated");
 
     const loadedToken = localStorage.getItem('token');
-    if (loadedToken) {
-      console.log("Loaded JWT from local storage");
-      this.token = loadedToken as string;
-    } else {
+    if(!loadedToken || loadedToken.length < 1){
       console.log("No token in local storage");
       this.token = "";
+    } else {
+      console.log("Loaded JWT from local storage");
+      this.token = loadedToken as string;
     }
-  };
+  }
 
   login(name: string, password: string, rememeber: boolean): Observable<any> {
     console.log("Login attempt from: " + name + ", " + password);
