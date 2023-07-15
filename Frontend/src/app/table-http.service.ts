@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { UserHttpService } from './user-http.service';
-import jwt_decode from 'jwt-decode';
 
 
 export interface Table{
@@ -16,20 +15,39 @@ export interface Table{
 export class TableHttpService {
 
   public url = "http://localhost:3000";
-  constructor(private http: HttpClient, private us: UserHttpService) { }
+  constructor(private http: HttpClient, private us: UserHttpService) {
+    console.log("Table service instantiated");
+    console.log("User service Token: " + us.getToken());
+  }
 
+  private handleError(err: HttpErrorResponse){
+    let errMsg = '';
+    if(err.error instanceof ErrorEvent){
+      errMsg = `An error occurred: ${err.error.message}`;
+    }
+    else{
+      errMsg = `Server returned code: ${err.status}, error message is: ${err.message}`;
+    }
+    console.error(errMsg);
+    return throwError(() => new Error(errMsg));
+  }
 
-  public getTables(filter?: string): Observable<Table[]> {
-    const url = this.url + '/tables';
+  private createOptions( params = {} ){
+    return {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.us.getToken(),
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json'
+      }),
+      params: new HttpParams( {fromObject: params} )
+    };
+  }
 
-    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + this.us.getToken());
-
-    const params = new HttpParams().set('filter', filter ? filter : '');
-
-    return this.http.get<Table[]>(url, { headers, params }).pipe(
-      tap((data: Table[]) => {
-        console.log('Received tables: ' + JSON.stringify(data));
-      }
-    ));
+  getTables(filter?: string): Observable<Table[]> {
+    return this.http.get<Table[]>(this.url + '/tables', this.createOptions({filter: filter})).pipe(
+      map( (data: any) => data.tables),
+      tap( (data) => console.log("Received tables: " + JSON.stringify(data)) ),
+      catchError(this.handleError)
+    );
   }
 }

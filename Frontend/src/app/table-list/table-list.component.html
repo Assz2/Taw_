@@ -2,6 +2,7 @@
 <app-table-editor (update)="getTables()"></app-table-editor>
 -->
 
-<div *ngFor="let i of tables" class="tb" style="margin: 5px;">
-    <h1>{{i}}</h1>
+<div *ngFor="let Table of tables"> <!--</div>class="tb" style="margin: 5px;">-->
+    <p> Table Number: {{Table.number}} </p>
+    <p> Seats: {{Table.seats}} </p>
 </div>

@@ -24,11 +24,11 @@ export class TableListComponent implements OnInit {
           this.tables = data;
         else
           this.tables = [data];
-        console.log("Received tables: " + JSON.stringify(data));
+        console.log("Received tables: " + this.tables);
       },
       error: (err) => {
         console.log("Error: " + JSON.stringify(err));
-        this.logout();
+        //this.logout();
       }
     });
   }
