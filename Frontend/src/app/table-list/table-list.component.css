@@ -1,3 +1,5 @@
+
+
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto;
@@ -30,7 +32,7 @@
     margin-top: 10px;
 }
 
-.tb-number{
+.free-tb-number{
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     font-size: 18px;
@@ -39,11 +41,29 @@
     text-align: center;
 }
 
-.tb-seats{
+.occ-tb-number{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: red;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.free-tb-seats{
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     font-size: 18px;
     color: green;
+    margin-top: -10px;
+    text-align: center;
+}
+
+.occ-tb-seats{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: red;
     margin-top: -10px;
     text-align: center;
 }
@@ -54,6 +74,16 @@
     display: inline-block;
     vertical-align: middle;
     background-color: green;
+    padding: 4px;
+    margin-top: 10px;
+}
+
+.occ-table-image{
+    width: 96px;
+    height: 96px;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: red;
     padding: 4px;
     margin-top: 10px;
 }

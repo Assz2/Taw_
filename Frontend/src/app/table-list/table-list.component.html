@@ -1,20 +1,21 @@
 <!--
 <app-table-editor (update)="getTables()"></app-table-editor>
 -->
-<h1 class="title"> TABLE LIST: </h1>
-<div class="grid-container">
-    <div class="grid-item" *ngFor="let Table of tables">
-        <div *ngIf="Table.occ==false" class="tb-free">
-            <img src="assets/images/freeTableIco.png" alt="Table" class="free-table-image">
-            <p class="tb-number">TABLE NUMBER: {{Table.number}}</p>
-            <p class="tb-seats"> TABLE SEATS: &nbsp;{{Table.seats}}</p>
-        </div>
-        
-        <div *ngIf="Table.occ==true" class="tb-occ">
-            <img src="assets/images/occTableIco.png" alt="Table" class="occ-table-image">
-            <p class="tb-number">TABLE NUMBER: {{Table.number}}</p>
-            <p class="tb-seats">TABLE SEATS: &nbsp;{{Table.seats}}</p>
+<body>
+    <h1 class="title"> TABLE LIST: </h1>
+    <div class="grid-container">
+        <div class="grid-item" *ngFor="let Table of tables">
+            <div *ngIf="Table.occ==false" class="tb-free">
+                <img src="assets/images/tableIco.png" alt="Table" class="free-table-image">
+                <p class="free-tb-number">TABLE NUMBER: {{Table.number}}</p>
+                <p class="free-tb-seats"> TABLE SEATS: &nbsp;{{Table.seats}}</p>
+            </div>
+            
+            <div *ngIf="Table.occ==true" class="tb-occ">
+                <img src="assets/images/tableIco.png" alt="Table" class="occ-table-image">
+                <p class="occ-tb-number">TABLE NUMBER: {{Table.number}}</p>
+                <p class="occ-tb-seats">TABLE SEATS: &nbsp;{{Table.seats}}</p>
+            </div>
         </div>
     </div>
-</div>
-
+</body>
