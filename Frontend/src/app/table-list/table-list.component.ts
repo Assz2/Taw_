@@ -33,6 +33,11 @@ export class TableListComponent implements OnInit {
     });
   }
 
+  public goToTable(id: Number){
+    this.router.navigate(['/orders?tb=' + id]);
+  }
+
+
   logout(){
     this.us.logout();
     this.router.navigate(['/']);

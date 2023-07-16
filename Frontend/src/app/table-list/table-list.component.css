@@ -11,9 +11,15 @@
     margin-bottom: 10px;
 }
 
+button{
+    padding: 0;
+    border: none;
+    background: none;
+}
+
 .grid-item{
     border-radius: 20px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
     padding: 20px;
     font-size: 23px;
     text-align: center;
@@ -21,6 +27,12 @@
     margin-bottom: 20px;
     margin-right: 10px;
     margin-left: 10px;
+    transition: transform 0.2s;
+}
+
+.grid-item:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .title{
@@ -35,7 +47,7 @@
 .free-tb-number{
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 30px;
     color: green;
     margin-top: 20px;
     text-align: center;
@@ -44,7 +56,7 @@
 .occ-tb-number{
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 30px;
     color: red;
     margin-top: 20px;
     text-align: center;
@@ -55,7 +67,7 @@
     font-weight: bold;
     font-size: 18px;
     color: green;
-    margin-top: -10px;
+    margin-top: 30px;
     text-align: center;
 }
 
@@ -64,7 +76,7 @@
     font-weight: bold;
     font-size: 18px;
     color: red;
-    margin-top: -10px;
+    margin-top: 30px;
     text-align: center;
 }
 
