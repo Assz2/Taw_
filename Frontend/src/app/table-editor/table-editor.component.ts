@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class TableEditorComponent {
 
+  sliderChecked = false;
+  onSliderChange(event: Event){
+    const slider = event.target as HTMLInputElement;
+    this.sliderChecked = slider.checked;
+  }
 }

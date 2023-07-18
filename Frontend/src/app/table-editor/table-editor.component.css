@@ -1,4 +1,30 @@
-.title-wrapper{
+h1{
+    /*default slider*/
+    font: "Montserrat", sans-serif;
+    font-size: large;
+    opacity: 0.4;
+    -webkit-transition: 0.4s;
+    transition: 0.4s; 
+}
+
+h1.slider-triggered{
+    /*slider triggered*/
+    font-size: x-large;
+    color: green;
+    opacity: 1;
+}
+
+
+
+.table-editor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.title-slider{
     display: flex;
     align-items: center;
 }

@@ -1,11 +1,14 @@
-<div>  
-    <div class="title-wrapper">
-        <label for="title"></label>
-        <h1 id="title">ONLY FREE TABLES: </h1>
-    </div>
-    <label class="switch">
-        <input type="checkbox"><!--- (update)="filterTablesUpdate()">-->
-        <span class="slider round"></span>
-    </label>
-</div>
 
+<div class="table-editor">  
+    <div class="title-slider">
+        <label for="title"></label>
+        <h1 id="title" [ngClass]="{'slider-triggered': sliderChecked}">
+            &nbsp;&nbsp;SHOW ONLY FREE TABLES  &nbsp;&nbsp;
+        </h1>
+
+        <label class="switch">
+            <input type="checkbox" (change)="onSliderChange($event)"><!--- (update)="filterTablesUpdate()">-->
+            <span class="slider round"></span>
+        </label>
+    </div>
+</div>

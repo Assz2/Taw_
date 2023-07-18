@@ -1,7 +1,10 @@
 <app-table-editor (update)="getTables()"></app-table-editor>
 
-<body>
+<div class="center">
     <h1 class="title"> TABLE LIST: </h1>
+</div>
+
+<div class="center">
     <div class="grid-container">
         <button class="grid-item" *ngFor="let Table of tables" (click)="goToTable(Table.number)">
             <div *ngIf="Table.occ==false" class="tb-free">
@@ -17,4 +20,4 @@
             </div>
         </button>
     </div>
-</body>
+</div>
