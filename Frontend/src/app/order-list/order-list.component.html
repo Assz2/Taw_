@@ -1,1 +1,23 @@
-<p>order-list works!</p>
+<!--
+<app-order-editor (update)="updateFilter($event)"></app-order-editor>
+-->
+
+<div class="center">
+    <h1 class="title"> ORDER LIST: </h1>
+</div>
+
+<div class="center">
+    <div class="ordered-item" *ngFor="let Item of orders">
+        <div *ngIf="Item.type=='food'" class="food">
+            <img src="assets/images/food.png" alt="Food" class="Food-img">
+            <p class="food-name">{{Item.name}}</p>
+            <p class="food-price">{{Item.price}} €</p>
+        </div>
+
+        <div *ngIf="Item.type=='drink'" class="drink">
+            <img src="assets/images/drink.png" alt="Drink" class="Drink-img">
+            <p class="drink-name">{{Item.name}}</p>
+            <p class="drink-price">{{Item.price}} €</p>
+        </div>
+    </div>
+</div>

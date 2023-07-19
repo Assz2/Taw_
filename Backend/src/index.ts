@@ -219,7 +219,7 @@ app.delete('/users/:name', auth, authCashier, (req: any, res) => {
 app.get('/orders', auth, (req, res) => {
     var filter = {};
     if(req.query.tb){
-        filter = {table: req.query.tb};
+        filter = {tableNumber: req.query.tb};
     }
     if(req.query.status){
         filter = {status: req.query.status};

@@ -4,7 +4,6 @@ import { tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
-
 interface Token {
   name: string;
   role: string;
