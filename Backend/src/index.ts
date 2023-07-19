@@ -9,18 +9,23 @@
  *      /register             None                         POST                     Register a new user (authorization required) (only cashier can register new users)
  * 
  *      /users                ?role=                       GET                      Returns a list of all users eventually filtered by role (authorization required) (only cashier can get users by role)
+ * 
  *      /users/:name          None                         GET                      Returns a user by id (authorization required) (only cashier can get users by id)
+ * 
+ *      /users/:name          None                         DELETE                   Removes a user by id (authorization required) (only cashier can delete users by id)
  * 
  * 
  * 
  *      /tables               ?free                        GET                      Returns a list of all tables eventually filtered as free tables (authorization required)
  * 
  *      /tables               None                         POST                     Creates a new table (authorization required) (only cashier can create new tables)
+ * 
+ *      /tables/:id           None                         DELETE                   Removes a table by id (authorization required) (only cashier can delete tables by id)
  *      
  *      
  *      
  *      /orders               ?tb=                         GET                      Returns a list of all orders grouped by table id 
- *                            ?type=                                                and eventually filtered by type (food or drinks) (authorization required)
+ *                            ?status=                                              and eventually filtered by status(authorization required)
  * 
  *      /orders               None                         POST                     Creates a new order (authorization required)
  * 
@@ -34,6 +39,8 @@
  * 
  *     /menu                  ?type=                       GET                      Returns a list of all menu items eventually filtered by type (food or drinks) (authorization required)
  * 
+ *     /menu/:name            None                         GET                      Removes a menu item by id (authorization required) (only cashier can delete menu items by id)
+ * 
  *     /menu                  None                         POST                     Creates a new menu item (authorization required) (only cashier can create new menu items)
  * 
  */
@@ -42,37 +49,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
 const result = require('dotenv').config();
 
 if (result.error) {
@@ -138,9 +114,9 @@ var authCashier = (req: any, res: any, next: any) => {
     }
 };
 
+// ----------------------------------------------  ENDPOINTS  ------------------------------------------------------ //
 
-
-//--------------------ENDPOINTS--------------------//
+//----------------------------------------------------------------- ROOT
 app.get('/', (req, res) => {
     return res.status(200).json({
         api_version: '1.0', 
@@ -149,27 +125,9 @@ app.get('/', (req, res) => {
 });
 
 
-// USER ENDPOINTS
-app.post('/register', auth, authCashier, (req, res) => {
-    //i want to  create a new user
-    try{
-        const {name, password, role} = req.body;
-        const us = user.newUser({
-            name: name
-        });
-        us.setPassword(password);
-        us.setRole(role);
-        user.getModel().create(us).then((data) => {
-            return res.status(200).json({error: false, errormessage: "", id: data._id});
-        }).catch((err) => {
-            return res.status(500).json({error: true, errormessage: err});
-        });
-    } catch(err){  
-        console.log(err);
-        return res.status(500).json({error: true, errormessage: err});
-    }
-});
 
+
+//----------------------------------------------------------------- LOGIN
 passport.use(new passportHTTP.BasicStrategy(
     function(username, password, done){
         console.log("New login from: " + username);
@@ -206,10 +164,34 @@ app.post('/login', passport.authenticate('basic', {session: false}), (req: any, 
 });
 
 
+
+//----------------------------------------------------------------- REGISTER
+app.post('/register', auth, authCashier, (req, res) => {
+    try{
+        const {name, password, role} = req.body;
+        const us = user.newUser({
+            name: name
+        });
+        us.setPassword(password);
+        us.setRole(role);
+        user.getModel().create(us).then((data) => {
+            return res.status(200).json({error: false, errormessage: "", id: data._id});
+        }).catch((err) => {
+            return res.status(500).json({error: true, errormessage: err});
+        });
+    } catch(err){  
+        console.log(err);
+        return res.status(500).json({error: true, errormessage: err});
+    }
+});
+
+
+
+//----------------------------------------------------------------- USERS
 app.get('/users', auth, authCashier, (req, res) => {
     var filter = {};
     if(req.query.role){
-        filter = {$all: req.query.role};
+        filter = {role: req.query.role};
     }   
     console.log("Using filter: " + JSON.stringify(filter));
     console.log("Using query: " + JSON.stringify(req.query.role));
@@ -232,14 +214,53 @@ app.delete('/users/:name', auth, authCashier, (req: any, res) => {
     console.log("Deleting user: " + req.params.name);
     user.getModel().findOneAndDelete( {name: req.params.name } ).then((data) => {
         return res.status(200).json({error: false, errormessage: "", user: data});
-    });//.catch((err) => {
-        //return res.status(500).json({error: true, errormessage: err});
-    //});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
 });
 
 
 
-// ORDER ENDPOINTS
+//----------------------------------------------------------------- TABLES
+app.route('/tables')
+.get( auth, (req, res) => {
+    var filter = {};
+    if(req.query.free === 'false'){
+        filter = {free: false};
+    }
+    if(req.query.free === 'true'){
+        filter = {free: true};
+    }
+    console.log("Using filter: " + JSON.stringify(filter));
+    console.log("Using query: " + JSON.stringify(req.query.free));
+    table.getModel().find(filter).then((data) => {
+        return res.status(200).json({error: false, errormessage: "", tables: data});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
+})
+.post(auth, authCashier, (req, res) => {
+    var newTable = req.body;
+    table.getModel().create(newTable).then((data) => {
+        return res.status(200).json({error: false, errormessage: "", id: data._id});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
+});
+
+
+app.delete('/tables/:id', auth, authCashier, (req, res) => {
+    console.log("Deleting table: " + req.params.id);
+    table.getModel().findOneAndDelete( {tableId: req.params.id as undefined as number} ).then((data) => {
+        return res.status(200).json({error: false, errormessage: "", table: data});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
+});
+
+
+
+//----------------------------------------------------------------- ORDERS
 app.get('/orders', auth, (req, res) => {
     var filter = {};
     if(req.query.tb){
@@ -247,12 +268,6 @@ app.get('/orders', auth, (req, res) => {
     }
     if(req.query.status){
         filter = {status: req.query.status};
-    }
-    if(req.query.food){
-        filter = {type: req.query.food};
-    }
-    if(req.query.drinks){
-        filter = {type: req.query.drinks};
     }
     console.log("Using filter: " + JSON.stringify(filter));
     console.log("Using query: " + JSON.stringify(req.query.tb));
@@ -262,6 +277,89 @@ app.get('/orders', auth, (req, res) => {
         return res.status(500).json({error: true, errormessage: err});
     })
 });
+
+
+/*
+app.post('/orders', auth, (req, res) => {
+    //i want to notify through socket.io the users with role 'BARTENDER' and 'COOKS' that a new order has been created
+    
+    var newOrder = req.body;
+    newOrder.timeStamp = new Date();
+    order.getModel().create(newOrder).then((data) => {
+
+        user.getModel().find({role: {$in: ['BARTENDER', 'COOK']}}).then((us) => {
+            us.forEach((user) => {
+                io.emit('New order arrived!', user.name);
+            });
+            //stats.pushItem(data._id);
+        });
+
+        if(req.body.food){
+            order.newOrder(req.body).pushFood(req.body.food);
+        }
+        if(req.body.drinks){
+            order.newOrder(req.body).pushDrink(req.body.drinks);
+        }
+        return res.status(200).json({error: false, errormessage: "", id: data._id});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
+});
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+
+
+//--------------------ENDPOINTS--------------------//
+
+
+
+// USER ENDPOINTS
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ORDER ENDPOINTS
+
 
 app.route('/orders/:id')
 .get(auth, authCashier, (req, res) => {
@@ -307,31 +405,7 @@ app.route('/orders/:id')
     });
 });
 
-app.post('/orders', auth, (req, res) => {
-    //i want to notify through socket.io the users with role 'BARTENDER' and 'COOKS' that a new order has been created
-    
-    var newOrder = req.body;
-    newOrder.timeStamp = new Date();
-    order.getModel().create(newOrder).then((data) => {
 
-        user.getModel().find({role: {$in: ['BARTENDER', 'COOK']}}).then((us) => {
-            us.forEach((user) => {
-                io.emit('New order arrived!', user.name);
-            });
-            //stats.pushItem(data._id);
-        });
-
-        if(req.body.food){
-            order.newOrder(req.body).pushFood(req.body.food);
-        }
-        if(req.body.drinks){
-            order.newOrder(req.body).pushDrink(req.body.drinks);
-        }
-        return res.status(200).json({error: false, errormessage: "", id: data._id});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    });
-});
 
 
 
@@ -348,50 +422,11 @@ app.get('/daily', auth, authCashier, (req, res) => {
 });
 
 
-app.route('/tables')
-.get( auth, (req, res) => {
-    console.log("received query: " + req.query)
-    var filter = {};
-    if(req.query.occ === 'false'){
-        filter = {occ: false};
-    }
-    if(req.query.occ === 'true'){
-        filter = {occ: true};
-    }
-    console.log("Using filter: " + JSON.stringify(filter));
-    console.log("Using query: " + JSON.stringify(req.query.free));
-    table.getModel().find(filter).then((data) => {
-        return res.status(200).json({error: false, errormessage: "", tables: data});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    });
-})
-.post(auth, authCashier, (req, res) => {
-    var newTable = req.body;
-    table.getModel().create(newTable).then((data) => {
-        return res.status(200).json({error: false, errormessage: "", id: data._id});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    });
-});
 
 
 
-app.route('/tables/:num')
-.get(auth, authCashier, (req, res) => {
-    table.getModel().findById(req.params.num).then((data) => {
-        return res.status(200).json({error: false, errormessage: "", table: data});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    });
-})
-.delete(auth, authCashier, (req, res) => {
-    table.getModel().findByIdAndDelete(req.params.num).then((data) => {
-        return res.status(200).json({error: false, errormessage: "", table: data});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    });
-});
+
+
 
 
 
