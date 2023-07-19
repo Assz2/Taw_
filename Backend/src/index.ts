@@ -289,14 +289,14 @@ app.post('/orders', auth, (req, res) => {
     var newOrder = req.body;
     newOrder.timeStamp = new Date();
     order.getModel().create(newOrder).then((data) => {
+
         user.getModel().find({role: {$in: ['BARTENDER', 'COOK']}}).then((us) => {
             us.forEach((user) => {
                 io.emit('New order arrived!', user.name);
             });
-            stats.pushItem(data._id);
-        }).catch((err) => {
-            return res.status(500).json({error: true, errormessage: err});
+            //stats.pushItem(data._id);
         });
+
         if(req.body.food){
             order.newOrder(req.body).pushFood(req.body.food);
         }

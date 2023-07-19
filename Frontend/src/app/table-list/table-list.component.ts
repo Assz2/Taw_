@@ -42,7 +42,8 @@ export class TableListComponent implements OnInit {
   }
 
   public goToTable(id: Number){
-    this.router.navigate(['/orders?tb=' + id]);
+    console.log("Going to table: " + id);
+    this.router.navigate(['/orders']);
   }
 
 
