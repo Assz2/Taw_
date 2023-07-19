@@ -11,6 +11,7 @@ import { UserHttpService } from './user-http.service';
 import { TableListComponent } from './table-list/table-list.component';
 import { TableHttpService } from './table-http.service';
 import { TableEditorComponent } from './table-editor/table-editor.component';
+import { OrderListComponent } from './order-list/order-list.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { TableEditorComponent } from './table-editor/table-editor.component';
     AppComponent,
     UserLoginComponent,
     TableListComponent,
-    TableEditorComponent
+    TableEditorComponent,
+    OrderListComponent
   ],
   
   // Services

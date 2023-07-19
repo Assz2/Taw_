@@ -326,11 +326,12 @@ app.get('/daily', auth, authCashier, (req, res) => {
 
 app.route('/tables')
 .get( auth, (req, res) => {
+    console.log("received query: " + req.query)
     var filter = {};
-    if(req.query.free){
+    if(req.query.occ === 'false'){
         filter = {occ: false};
     }
-    if(req.query.occupied){
+    if(req.query.occ === 'true'){
         filter = {occ: true};
     }
     console.log("Using filter: " + JSON.stringify(filter));

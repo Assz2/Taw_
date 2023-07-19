@@ -43,8 +43,8 @@ export class TableHttpService {
     };
   }
 
-  getTables(filter?: string): Observable<Table[]> {
-    return this.http.get<Table[]>(this.url + '/tables', this.createOptions({filter: filter})).pipe(
+  getTables(filter: string): Observable<Table[]> {
+    return this.http.get<Table[]>(this.url + '/tables', this.createOptions({occ: filter})).pipe(
       map( (data: any) => data.tables),
       tap( (data) => console.log("Received tables: " + JSON.stringify(data)) ),
       catchError(this.handleError)
