@@ -4,25 +4,12 @@ import * as it from './item';
 
 export interface Order{ // define interface
     readonly _id: mongoose.Types.ObjectId;       // readonly _id
-    tableNumber: number;                         // table
+    tableId: number;                             // table
     associatedWaiter: string;                    // associated waiter
+    items: string[];                             // items
     status: string;                              // status
     timeStamp: Date;                             // timeStamp
     total: number;                               // total
-    food?: string[];                             // food
-    drinks?: string[];                           // drinks
-
-    //setTotal: (total: number) => void;           // setTotal
-    pushFood: (food: mongoose.Types.ObjectId) => void; // pushFood
-    pushDrink: (drinks: mongoose.Types.ObjectId) => void; // pushDrinks
-    updateTotal: (item: string) => void;                     // updateTotal
-
-    //setTable: (table: number) => void;          // setTable
-    //setFood: (food: mongoose.Types.ObjectId[]) => void; // setFood
-    //setDrinks: (drinks: mongoose.Types.ObjectId[]) => void; // setDrinks
-    //setAssociatedWaiter: (waiter: mongoose.Types.ObjectId) => void; // setAssociatedWaiter
-    //setStatus: (status: string) => void;        // setStatus
-    //getTotal: () => number;                     // getTotal
 }
 
 
@@ -58,6 +45,7 @@ var orderSchema = new mongoose.Schema<Order>({ // create schema
     }
 });
 
+/*
 orderSchema.methods.pushFood = function(food: string){
     this.food?.push(food);
     this.updateTotal(food);
@@ -78,7 +66,7 @@ orderSchema.methods.updateTotal = function(item: string){
         }
     });
 }
-
+*/
 
 export default mongoose.model<Order>('Order', orderSchema); // export model
 
@@ -102,4 +90,4 @@ export function newOrder(data: (mongoose.AnyKeys<Order> | mongoose.AnyObject) | 
 }   // export newOrder
 
 
-    
+

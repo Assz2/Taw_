@@ -1,80 +1,41 @@
 import mongoose = require('mongoose');
 
 export interface Stats{
-    readonly _id: mongoose.Types.ObjectId;
-    daily: number;
-    items?: mongoose.Types.ObjectId[];
-    
-    //pushItem: (item: mongoose.Types.ObjectId) => void;
-    getDaily: (daily: number) => void;
-    pushItem: (item: mongoose.Types.ObjectId) => void;
-    /*
-    weekly: number;
-    monthly: number;
-    yearly: number;
-
-    
-    updateWeekly: () => void;
-    updateMonthly: (monthly: number) => void;
-    updateYearly: (yearly: number) => void;
-    getDaily: () => number;
-    getWeekly: () => number;
-    getMonthly: () => number;
-    getYearly: () => number;
-    */
+    readonly _id: mongoose.Types.ObjectId;  // readonly _id
+    date: Date;                             // date
+    customers: number;                      // customers
+    tableOccupancy: number;                 // tableOccupancy
+    totalSales: number;                     // totalSales
 }
 
-var statsSchema = new mongoose.Schema<Stats>({
-    daily: {
+var statsSchema = new mongoose.Schema<Stats>({ // create schema
+    date: {
+        type: mongoose.SchemaTypes.Date,
+        required: true,
+        unique: true
+    },
+    customers: {
         type: mongoose.SchemaTypes.Number,
         required: true
     },
-    items: {
-        type: [mongoose.SchemaTypes.ObjectId],
-        required: false
-    }
-    /*
-    weekly: {
+    tableOccupancy: {
         type: mongoose.SchemaTypes.Number,
         required: true
     },
-    monthly: {
-        type: mongoose.SchemaTypes.Number,
-        required: true
-    },
-    yearly: {
+    totalSales: {
         type: mongoose.SchemaTypes.Number,
         required: true
     }
-    */
-});
+})
 
-
-statsSchema.methods.updateDaily = function(daily: number){
-    this.daily += daily;
-};
-
-statsSchema.methods.pushItem = function(item: mongoose.Types.ObjectId){
-    this.items?.push(item);
-};
-/*
-statsSchema.methods.updateWeekly = function(){
-    var med = 0;
-    for(var i = 0; i < 7; i++){
-        med += this.getDaily();
-    }
-    med = med / 7;
-    this.weekly = med;
-};
-*/
-
-export default mongoose.model<Stats>('Stats', statsSchema);
+export default mongoose.model<Stats>('Stats', statsSchema); // export model
 
 export function getSchemas(){
     return statsSchema;
 }
 
-var statsModel: mongoose.Model<Stats>;
+var statsModel: mongoose.Model<Stats>
+
 export function getModel(){
     if(!statsModel){
         statsModel = mongoose.model<Stats>('Stats', getSchemas());
@@ -87,12 +48,4 @@ export function newStats(data: (mongoose.AnyKeys<Stats> | mongoose.AnyObject) | 
     var stats = new _statsModel(data);
     return stats;
 }   // export newStats
-
-export function updateDaily(total: number | undefined) {
-    throw new Error('Function not implemented.');
-}
-
-export function pushItem(_id: any) {
-    throw new Error('Function not implemented.');
-}
 

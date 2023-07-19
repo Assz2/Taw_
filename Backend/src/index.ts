@@ -1,54 +1,78 @@
 /**
+ *      ENDPOINTS             ATTRIBUTES                   METHODS                  DESCRIPTION
  * 
- *  Endpoints                    Attributes                   Methods                  Description  
- * 
- *   /                           None                         GET                      Returns api version and a list of all endpoints
- * 
- * 
- *   /register                   None                         POST                     Registers a new user (authorization required) (only cashier can register new users)
- *   /login                      None                         POST                     Logs in a user
- * 
- *   /users                      ?role=                       GET                      Returns a list of all users eventually filtered by role  (authorization required) (only cashier can get users by role)
- *   /users/:name                None                         GET                      Returns a user by id (authorization required) (only cashier can get users by id)
- *   /users/:name                None                         DELETE                   Delete a user by name (authorization required) (only cashier can delete users) 
+ *      /                     None                         GET                      Returns api version and a list of all endpoints 
  * 
  * 
- * 
- *   /orders                     ?tb=&food                    GET                      Returns a list of all orders grouped by table id and eventually filtered by type (food or drinks) (authorization required) 
- *                               ?tb=&drinks                  GET                                                                           
- *                               ?status=                     GET                      Returns a list of all orders grouped by table id and eventually filtered by status (queue, finished, up)(authorization required)
- * 
- *   /orders/:id                 None                         GET                      Returns an order by id (authorization required) (only cashier can get orders by id)
- * 
- *   /orders/:id                 None                         PUT                      Updates an order by id (authorization required) (only cooks, bartenders or cashier can update orders by id)
- * 
- *   /orders                     None                         POST                     Creates a new order (authorization required)    
+ *      /login                None                         POST                     Logs in a user
  *  
- *   /orders/:id                 None                         DELETE                   Removes an order by id (authorization required) (only cashier can delete orders by id)
+ *      /register             None                         POST                     Register a new user (authorization required) (only cashier can register new users)
  * 
- *   /daily                      ?food                        GET                      Returns the total amount of money earned (authorization required) (only cashier can get total)
- *                               ?drinks                      GET                         
- * 
- * 
- *   /tables                     ?free                        GET                      Returns a list of all tables eventually filtered as free tables (authorization required)
- *                               ?occupied                    GET                      Returns a list of all tables eventually filtered as occupied tables (authorization required)
- * 
- *   /tables                     None                         POST                     Creates a new table (authorization required) (only cashier can create new tables)   
- * 
- *   /tables/:num                None                         GET                      Returns a table by id (authorization required) (only cashier can get tables by id)
- *   /tables/:num                None                         DELETE                   Delete a table by id (authorization required) (only cashier can delete tables by id)
+ *      /users                ?role=                       GET                      Returns a list of all users eventually filtered by role (authorization required) (only cashier can get users by role)
+ *      /users/:name          None                         GET                      Returns a user by id (authorization required) (only cashier can get users by id)
  * 
  * 
- *   /menu                       ?food                        GET                      Returns a list of all menu items eventually filtered by food or drinks (authorization required) 
- *                               ?drinks                      GET             
  * 
- *   /menu                       None                         POST                     Creates a new menu item (authorization required) (only cashier can create new menu items)
- *   /menu/:id                   None                         DELETE                   Delete a menu item by id (authorization required) (only cashier can get menu items by id)
- *   
+ *      /tables               ?free                        GET                      Returns a list of all tables eventually filtered as free tables (authorization required)
  * 
- *    
+ *      /tables               None                         POST                     Creates a new table (authorization required) (only cashier can create new tables)
+ *      
+ *      
+ *      
+ *      /orders               ?tb=                         GET                      Returns a list of all orders grouped by table id 
+ *                            ?type=                                                and eventually filtered by type (food or drinks) (authorization required)
+ * 
+ *      /orders               None                         POST                     Creates a new order (authorization required)
+ * 
+ *      /orders/:id           None                         PUT                      Updates an order by id (authorization required) (only cooks, bartenders or cashier can update orders by id)
+ * 
+ *      /orders/:id           None                         GET                      Returns an order by id (authorization required) (only cashier can get orders by id)
+ * 
+ *      /orders/:id           None                         DELETE                   Removes an order by id (authorization required) (only cashier can delete orders by id)
+ * 
+ *      
+ * 
+ *     /menu                  ?type=                       GET                      Returns a list of all menu items eventually filtered by type (food or drinks) (authorization required)
+ * 
+ *     /menu                  None                         POST                     Creates a new menu item (authorization required) (only cashier can create new menu items)
+ * 
  */
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 const result = require('dotenv').config();
 
 if (result.error) {
@@ -444,3 +468,5 @@ mongoose.connect('mongodb://127.0.0.1:27017/Taw')
         process.exit(1);
     }
 );
+
+*/

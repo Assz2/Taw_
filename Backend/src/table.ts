@@ -2,16 +2,16 @@ import mongoose = require('mongoose');
 
 export interface Table{
     readonly _id: mongoose.Types.ObjectId;  // readonly _id
-    number: number;                         // number
+    tableId: number;                         // number
     seats: number;                          // seats
-    occ: boolean;                           // free
+    free: boolean;                           // free
 
     setOcc: () => void;                     // setOcc
     setFree: () => void;                    // setFree
 }
 
 var tableSchema = new mongoose.Schema<Table>({ // create schema
-    number: {
+    tableId: {
         type: mongoose.SchemaTypes.Number,
         required: true,
         unique: true
@@ -20,17 +20,17 @@ var tableSchema = new mongoose.Schema<Table>({ // create schema
         type: mongoose.SchemaTypes.Number,
         required: true
     },
-    occ: {
+    free: {
         type: mongoose.SchemaTypes.Boolean, 
         required: true
     }
 })
 
 tableSchema.methods.setOcc = function(){    // setOcc
-    this.occ = true;
+    this.free = false;
 }
 tableSchema.methods.setFree = function(){   // setFree
-    this.occ = false;
+    this.free = true;
 }
 
 export default mongoose.model<Table>('Table', tableSchema); // export model

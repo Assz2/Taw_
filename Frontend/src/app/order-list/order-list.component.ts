@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrderHttpService, Item } from '../order-http.service';
+import { OrderHttpService, Order } from '../order-http.service';
+import { TableHttpService } from '../table-http.service';
 
 @Component({
   selector: 'app-order-list',
@@ -9,22 +10,26 @@ import { OrderHttpService, Item } from '../order-http.service';
 })
 export class OrderListComponent implements OnInit{
 
-  public orders: Item[] = [];
-  private filter: string = "";
-  constructor(private router: Router, private os: OrderHttpService) { }
+  public orders: Order[] = [];
+  
+  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService) { }
+
+  private filter: Number = this.ts.inheritedFilter;
 
   ngOnInit(){
     this.getOrders();
   }
 
   public getOrders(){
+    //this.filter = this.ts.inheritedFilter;
     this.os.getOrders(this.filter).subscribe({
       next: (data) => {
+        console.log("Received orders: " + this.orders);
         if(Array.isArray(data))
           this.orders = data;
         else
           this.orders = [data];
-        console.log("Received orders: " + this.orders);
+        
       },
       error: (err) => {
         console.log("Error: " + JSON.stringify(err));

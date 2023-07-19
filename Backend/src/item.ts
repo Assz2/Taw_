@@ -6,7 +6,8 @@ export interface Item{ // define interface
     name: string;                               // name 
     type: string;                               // type
     price: number;                              // price
-    description?: string;                        // description
+    popularity: number;                         // popularity
+    description: string;                        // description
 }
 
 var itemSchema = new mongoose.Schema<Item>({ // create schema
@@ -23,10 +24,15 @@ var itemSchema = new mongoose.Schema<Item>({ // create schema
         type: mongoose.SchemaTypes.Number,
         required: true
     },
+    popularity: {
+        type: mongoose.SchemaTypes.Number,
+        required: true
+    },
     description: {
         type: mongoose.SchemaTypes.String,
         required: false
     }
+    
 });
 
 export default mongoose.model<Item>('Item', itemSchema); // export model

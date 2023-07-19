@@ -6,11 +6,14 @@ import { UserHttpService } from './user-http.service';
 
 
 
-export interface Item{ 
-  name: string;                              
-  type: string;                               
-  price: number;                              
-  description?: string;                        
+export interface Order{ // define interface
+  tableNumber: number;                         // table
+  associatedWaiter: string;                    // associated waiter
+  status: string;                              // status
+  timeStamp: Date;                             // timeStamp
+  total: number;                               // total
+  food?: string[];                             // food
+  drinks?: string[];  
 }
 
 @Injectable()
@@ -42,8 +45,8 @@ export class OrderHttpService {
     };
   }
 
-  getOrders(filter: string): Observable<any[]> {
-    return this.Http.get<any[]>(this.url + '/orders', this.createOptions({tb: filter})).pipe(
+  getOrders(filter: Number): Observable<Order[]> {
+    return this.Http.get<Order[]>(this.url + '/orders', this.createOptions({tb: filter})).pipe(
       map( (data: any) => data.orders),
       tap( (data) => console.log("Received orders: " + JSON.stringify(data)) ),
       catchError(this.handleError)

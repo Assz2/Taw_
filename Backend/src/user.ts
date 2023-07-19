@@ -3,21 +3,17 @@ import crypto = require('crypto'); // import crypto
 
 // define interface
 export interface User{
-    readonly _id: mongoose.Types.ObjectId;  // readonly _id
-    name: string;                           // name
-    role: string;                           // role
-    salt: string;                           // salt
-    digest: string;                         // digest
-    stats? : number;                        // stats
-    table? : number[];                      // associated tables
+    readonly _id: mongoose.Types.ObjectId;
+    name: string;
+    role: string;
+    salt: string;
+    digest: string;
+    stats?: number;
 
-
-    setPassword: (password: string) => void;    // setPassword  
-    validatePassword: (password: string) => boolean; // validatePassword
-    setRole: (role: string) => void;              // setRole
-    getRole: () => string;                        // getRole
-    //pushTable: (table: number) => void;           // pushTable
-    //removeTable: (table: number) => void;         // removeTable
+    setPassword(pwd: string): void;
+    validatePassword(pwd: string): boolean;
+    setRole(rl: string): void;
+    getRole(): string;
 }
 
 var userSchema = new mongoose.Schema<User>({ // create schema
@@ -40,10 +36,6 @@ var userSchema = new mongoose.Schema<User>({ // create schema
     },
     stats: {
         type: mongoose.SchemaTypes.Number,
-        required: false
-    },
-    table: {
-        type: [mongoose.SchemaTypes.Number],
         required: false
     }
 }); 

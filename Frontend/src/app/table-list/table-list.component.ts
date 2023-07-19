@@ -41,11 +41,10 @@ export class TableListComponent implements OnInit {
     this.getTables();
   }
 
-  public goToTable(id: Number){
-    console.log("Going to table: " + id);
+  goToTable(id: number){
+    this.ts.inheritedFilter = id;
     this.router.navigate(['/orders']);
   }
-
 
   logout(){
     this.us.logout();

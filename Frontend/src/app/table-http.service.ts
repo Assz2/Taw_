@@ -15,6 +15,8 @@ export interface Table{
 export class TableHttpService {
 
   public url = "http://localhost:3000";
+  public  inheritedFilter: Number = -1;
+
   constructor(private http: HttpClient, private us: UserHttpService) {
     console.log("Table service instantiated");
     console.log("User service Token: " + us.getToken());
