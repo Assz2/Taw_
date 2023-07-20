@@ -43,6 +43,10 @@
  * 
  *     /menu                  None                         POST                     Creates a new menu item (authorization required) (only cashier can create new menu items)
  * 
+ *     
+ * 
+ *     /stats                 None                         GET                      Returns the daily sales (authorization required) (only cashier can get daily sales)
+ * 
  */
 
 
@@ -130,7 +134,7 @@ app.get('/', (req, res) => {
 //----------------------------------------------------------------- LOGIN
 passport.use(new passportHTTP.BasicStrategy(
     function(username, password, done){
-        console.log("New login from: " + username);
+        //console.log("New login from: " + username);
         user.getModel().findOne( {name: username}, (err: any, user: any) => {
             if(!user.validatePassword(password)){
                 return done(null, false);
@@ -154,8 +158,7 @@ app.post('/login', passport.authenticate('basic', {session: false}), (req: any, 
         id: req.user._id,
         name: req.user.name,
         role: req.user.role,
-        stats: req.user.stats,
-        table: req.user.table
+        stats: req.user.stats
     };
 
     console.log("Login from: " + req.user.name);
@@ -170,7 +173,8 @@ app.post('/register', auth, authCashier, (req, res) => {
     try{
         const {name, password, role} = req.body;
         const us = user.newUser({
-            name: name
+            name: name,
+            stats: 0
         });
         us.setPassword(password);
         us.setRole(role);
@@ -203,6 +207,7 @@ app.get('/users', auth, authCashier, (req, res) => {
 });
 
 app.get('/users/:name', auth, authCashier, (req: any, res) => {
+    console.log("Getting user: " + req.params.name);
     user.getModel().findOne({name: req.params.name}).then((data) => {
         return res.status(200).json({error: false, errormessage: "", user: data});
     }).catch((err) => {
@@ -261,10 +266,11 @@ app.delete('/tables/:id', auth, authCashier, (req, res) => {
 
 
 //----------------------------------------------------------------- ORDERS
-app.get('/orders', auth, (req, res) => {
+app.route('/orders')
+.get(auth, (req, res) => {
     var filter = {};
     if(req.query.tb){
-        filter = {tableNumber: req.query.tb};
+        filter = {tableId: req.query.tb};
     }
     if(req.query.status){
         filter = {status: req.query.status};
@@ -276,99 +282,53 @@ app.get('/orders', auth, (req, res) => {
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
     })
-});
-
-
-/*
-app.post('/orders', auth, (req, res) => {
+})
+.post(auth, (req, res) => {
     //i want to notify through socket.io the users with role 'BARTENDER' and 'COOKS' that a new order has been created
-    
-    var newOrder = req.body;
+
+    //for me of the future: I think I dont need in the backend to push any item into the item[] array bcause when I will do a request
+    //in post to this endpoint, i will value the order with the body of the request thus i will populate the array in the frontend
+    //and pass it to the backend. Any data manipulation will be done in the backend
+
+
+    const { tableId, items } = req.body;
+    var newOrder = order.newOrder({
+        tableId: tableId,
+        items: items, 
+    });
+    newOrder.status = "PENDING";            // PENDING -> order sent to cuisine/bar
+                                            // QUEUE -> order being prepared
+                                            // READY -> order ready to be served
+
     newOrder.timeStamp = new Date();
+    newOrder.associatedWaiter = user.newUser(req.user).name;
+    newOrder.setTotal();
+    //console.log("rotto con total?");
     order.getModel().create(newOrder).then((data) => {
 
+        //socket.io emit
         user.getModel().find({role: {$in: ['BARTENDER', 'COOK']}}).then((us) => {
             us.forEach((user) => {
                 io.emit('New order arrived!', user.name);
             });
-            //stats.pushItem(data._id);
+        }).catch((err) => {
+            return res.status(500).json({error: true, errormessage: err});
         });
 
-        if(req.body.food){
-            order.newOrder(req.body).pushFood(req.body.food);
-        }
-        if(req.body.drinks){
-            order.newOrder(req.body).pushDrink(req.body.drinks);
-        }
+        //table set free = false
+        table.getModel().findOneAndUpdate({tableId: newOrder.tableId}, {free: false}).then((data) => {})
+        .catch((err) => {
+            return res.status(500).json({error: true, errormessage: err});
+        });
+
         return res.status(200).json({error: false, errormessage: "", id: data._id});
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
     });
 });
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-
-
-//--------------------ENDPOINTS--------------------//
-
-
-
-// USER ENDPOINTS
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ORDER ENDPOINTS
 
 
 app.route('/orders/:id')
-.get(auth, authCashier, (req, res) => {
-    order.getModel().findById(req.params.id).then((data) => {
-        return res.status(200).json({error: false, errormessage: "", order: data});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    }); 
-})
 .put(auth, (req, res) => {
     const authHeader = req.headers.authorization;
     if(!authHeader){
@@ -379,69 +339,55 @@ app.route('/orders/:id')
     const decoded = jwt.decode(token) as jwt.JwtPayload;
     const userRole = user.newUser(decoded).role;
     if(userRole === 'CASHIER' || userRole === 'COOK' || userRole === 'BARTENDER'){
+
         //i want to notify through socket.io the users with role 'WAITER' that an order has been updated and update the state of the order
-        order.getModel().findByIdAndUpdate(req.params.id).then((order: any) => {
-            user.getModel().findOne({name: order?.associatedWaiter}).then((us: any) => {
-                io.emit('Order updated!', us.name);
-            }).catch((err) => {
-                return res.status(500).json({error: true, errormessage: err});
-            });
+        order.getModel().findOneAndUpdate( {tableId: req.params.id as undefined as number} ).then((order) => {
+            user.getModel().findOne({name: order.associatedWaiter}).then((us: any) => {
+                io.emit('Order updated!', us);
+            })
+
             order.status = req.body.status;
             return res.status(200).json({error: false, errormessage: "", order: order});
-        }).catch((err) => {
-            return res.status(500).json({error: true, errormessage: err});
-        });
+        })
 
     } else {   
         return res.status(401).json({err: "Cashier, cook or bartender authorization required"});
     }
 })
+.get(auth, authCashier, (req, res) => {
+    order.getModel().findOne( {tableId: req.params.id as undefined as number} ).then((data) => {
+        return res.status(200).json({error: false, errormessage: "", order: data});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    }); 
+})
 .delete(auth, authCashier, (req, res) => {
-    order.getModel().findByIdAndDelete(req.params.id).then((data) => {
-        stats.updateDaily(data?.total);
+    order.getModel().findOneAndDelete( {tableId: req.params.id as undefined as number} ).then((data) => {
+
+        var updateTotal = data.total; 
+        stats.getModel().find().sort({date: -1}).limit(1).then((data) => {
+            data[0].updateDaily(updateTotal);
+        }).catch((err) => {
+           // FORSE DA PROBLEMI (to check) return res.status(500).json({error: true, errormessage: err});
+        });
+
         return res.status(200).json({error: false, errormessage: "", order: data});
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
     });
-});
+})
 
 
 
-
-
-app.get('/daily', auth, authCashier, (req, res) => {
-   var daily = 0;
-    order.getModel().find().then((data) => {
-        data.forEach((order) => {
-            daily += order.total;
-        });
-        return res.status(200).json({error: false, errormessage: "", daily: daily});
-    }).catch((err) => {
-        return res.status(500).json({error: true, errormessage: err});
-    });
-});
-
-
-
-
-
-
-
-
-
-
-
+//----------------------------------------------------------------- MENU
 app.route('/menu')
 .get(auth, (req, res) => {
     var filter = {};
-    if(req.query.food){
-        filter = {type: req.query.food};
-    }
-    if(req.query.drinks){
-        filter = {type: req.query.drinks};
+    if(req.query.type){
+        filter = {type: req.query.type};
     }
     console.log("Using filter: " + JSON.stringify(filter));
-    console.log("Using query: " + JSON.stringify(req.query.food));
+    console.log("Using query: " + JSON.stringify(req.query.type));
     menu.getModel().find(filter).then((data) => {
         return res.status(200).json({error: false, errormessage: "", menu: data});
     }).catch((err) => {
@@ -457,8 +403,8 @@ app.route('/menu')
     });
 });
 
-app.delete('/menu/:id', auth, authCashier, (req, res) => {
-    menu.getModel().findByIdAndDelete(req.params.id).then((data) => {
+app.delete('/menu/:name', auth, authCashier, (req, res) => {
+    menu.getModel().findOneAndDelete({name: req.params.name}).then((data) => {
         return res.status(200).json({error: false, errormessage: "", item: data});
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
@@ -467,7 +413,44 @@ app.delete('/menu/:id', auth, authCashier, (req, res) => {
 
 
 
+
+//----------------------------------------------------------------- STATS
+app.get('/stats', auth, authCashier, (req, res) => {
+    stats.getModel().find().sort({date: -1}).limit(1).then((data) => {
+        return res.status(200).json({error: false, errormessage: "", stats: data});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
+});
+
+
+
+
+
+//----------------------------------------------------------------- DATABASE CONNECTION
 mongoose.connect('mongodb://127.0.0.1:27017/Taw')
+.then(
+    () => {
+        stats.getModel().find().sort({date: -1}).limit(1).then((data) => {
+            if(!data || data[0].date.getDate() != new Date().getDate()){
+                var newStats = stats.newStats({
+                    date: new Date(),
+                    totalSeats: 0,
+                    occupancy: 0,
+                    dailySales: 0
+                });
+                newStats.setOccupancy();
+                stats.getModel().create(newStats).then((data) => {
+                    console.log("New stats created");
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+)
 .then(
     () => {
         console.log("Connected to database");
@@ -504,4 +487,5 @@ mongoose.connect('mongodb://127.0.0.1:27017/Taw')
     }
 );
 
-*/
+// FIRST CONNECTION TO DATABASE SETS STATS, DOESNT WORK. NEED TO BE FIXED
+// POST ORDER DOESNT WORK, NEED TO BE FIXED

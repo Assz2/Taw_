@@ -1,12 +1,18 @@
 import mongoose = require('mongoose');
+import * as tb from './table';
+import * as od from './order';
 
 export interface Stats{
     readonly _id: mongoose.Types.ObjectId;  // readonly _id
     date: Date;                             // date
-    customers: number;                      // customers
-    tableOccupancy: number;                 // tableOccupancy
-    totalSales: number;                     // totalSales
+    totalSeats: number;                     // totalSeats
+    occupancy?: number;                      // occupancy
+    dailySales?: number;                     // dailySales
+
+    setOccupancy: () => void;               // totCustomers
+    updateDaily: (x: number) => void;              // totTableOccupancy
 }
+
 
 var statsSchema = new mongoose.Schema<Stats>({ // create schema
     date: {
@@ -14,19 +20,40 @@ var statsSchema = new mongoose.Schema<Stats>({ // create schema
         required: true,
         unique: true
     },
-    customers: {
+    totalSeats: {
         type: mongoose.SchemaTypes.Number,
         required: true
     },
-    tableOccupancy: {
+    occupancy: {
         type: mongoose.SchemaTypes.Number,
-        required: true
+        required: false
     },
-    totalSales: {
+    dailySales: {
         type: mongoose.SchemaTypes.Number,
-        required: true
+        required: false
     }
 })
+
+
+
+statsSchema.methods.setOccupancy = function(){    // setOccupancy
+    var _tableModel = tb.getModel();
+    _tableModel.find( {free: false} ).then( (tables) => {
+        var totOccupancy = 0;
+        tables.forEach((table) => {
+            totOccupancy += table.seats;
+        })
+        this.occupancy = totOccupancy;
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+
+statsSchema.methods.updateDaily = function(x: number){    // updateDaily
+    this.dailySales += x;
+}
+
+
 
 export default mongoose.model<Stats>('Stats', statsSchema); // export model
 

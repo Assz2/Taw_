@@ -8,39 +8,38 @@ export interface Order{ // define interface
     associatedWaiter: string;                    // associated waiter
     items: string[];                             // items
     status: string;                              // status
-    timeStamp: Date;                             // timeStamp
-    total: number;                               // total
+    total: number;                              // total                       
+    timeStamp: Date;                             // timeStamp   
+    
+    setTotal(): void;                            // set total
 }
 
 
 var orderSchema = new mongoose.Schema<Order>({ // create schema
-    tableNumber: {
+    tableId: {
         type: mongoose.SchemaTypes.Number,
-        required: true
+        required: true,
+        unique: true
     },
     associatedWaiter: {
         type: mongoose.SchemaTypes.String,
-        required: true
+        required: false,
+        unique: true
     },
-    status: {   
+    items: {
+        type: [mongoose.SchemaTypes.String],
+        required: true,
+    },
+    status: {
         type: mongoose.SchemaTypes.String,
-        required: true  
-    },
-    timeStamp: {
-        type: mongoose.SchemaTypes.Date,
-        required: true
+        required: false
     },
     total: {
         type: mongoose.SchemaTypes.Number,
-        required: true
-    },
-
-    food: {
-        type: [mongoose.SchemaTypes.String],
         required: false
     },
-    drinks: {
-        type: [mongoose.SchemaTypes.String],
+    timeStamp: {
+        type: mongoose.SchemaTypes.Date,
         required: false
     }
 });
@@ -67,6 +66,18 @@ orderSchema.methods.updateTotal = function(item: string){
     });
 }
 */
+
+orderSchema.methods.setTotal = function(){
+    this.items.forEach((data) => {
+        it.getModel().findOne({name: data}).then((item) => {
+            this.total += item.price as number;
+        }).catch((err) => {
+            console.log(err);
+        })
+    });
+}
+
+
 
 export default mongoose.model<Order>('Order', orderSchema); // export model
 
