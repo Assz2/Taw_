@@ -8,7 +8,6 @@ interface Token {
   name: string;
   role: string;
   stats?: number;
-  table?: number[];
 }
 
 interface ReceivedToken {
@@ -94,10 +93,6 @@ export class UserHttpService {
 
   getStats(): number {
     return (jwt_decode(this.token) as Token).stats as number;
-  };
-
-  getTable(): number[] {
-    return (jwt_decode(this.token) as Token).table as number[];
   };
 
   isCashier(): boolean {
