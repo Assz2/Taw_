@@ -416,7 +416,38 @@ app.delete('/menu/:name', auth, authCashier, (req, res) => {
 
 //----------------------------------------------------------------- STATS
 app.get('/stats', auth, authCashier, (req, res) => {
-    stats.getModel().find().sort({date: -1}).limit(1).then((data) => {
+    stats.getModel().findOne().sort({date: -1}).limit(1).then((data) => {
+        
+        if(data){
+            if(data.date.getDate() != new Date().getDate()){
+                var newStats = stats.newStats({
+                    date: new Date(),
+                    totalSeats: 0,
+                    occupancy: 0,
+                    dailySales: 0
+                });
+                newStats.setOccupancy();
+                stats.getModel().create(newStats).then((data) => {
+                    return res.status(200).json({error: false, errormessage: "", stats: data});
+                //}).catch((err) => {
+                //    return res.status(500).json({error: true, errormessage: err});
+                });
+            }
+        } else {
+            var newStats = stats.newStats({
+                date: new Date(),
+                totalSeats: 0,
+                occupancy: 0,
+                dailySales: 0
+            });
+            newStats.setOccupancy();
+            stats.getModel().create(newStats).then((data) => {
+                return res.status(200).json({error: false, errormessage: "", stats: data});
+            //}).catch((err) => {
+            //    return res.status(500).json({error: true, errormessage: err});
+            });
+        }
+
         return res.status(200).json({error: false, errormessage: "", stats: data});
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
@@ -430,33 +461,6 @@ app.get('/stats', auth, authCashier, (req, res) => {
 //----------------------------------------------------------------- DATABASE CONNECTION
 mongoose.connect('mongodb://127.0.0.1:27017/Taw')
 .then(
-    () => {
-        stats.getModel().find().sort({date: -1}).limit(1).then((data) => {
-            if(!data || data[0].date.getDate() != new Date().getDate()){
-                var newStats = stats.newStats({
-                    date: new Date(),
-                    totalSeats: 0,
-                    occupancy: 0,
-                    dailySales: 0
-                });
-                newStats.setOccupancy();
-                stats.getModel().create(newStats).then((data) => {
-                    console.log("New stats created");
-                }).catch((err) => {
-                    console.log(err);
-                });
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-)
-.then(
-    () => {
-        console.log("Connected to database");
-        return user.getModel().findOne({name: "admin"});
-    }
-).then(
     (data) => {
         if(!data){
             console.log("Creating admin user");
