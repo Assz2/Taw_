@@ -291,9 +291,10 @@ app.route('/orders')
     //and pass it to the backend. Any data manipulation will be done in the backend
 
 
-    const { tableId, items } = req.body;
+    const { tableId, associatedWaiter, items } = req.body;
     var newOrder = order.newOrder({
         tableId: tableId,
+        associatedWaiter: associatedWaiter,
         items: items, 
     });
     newOrder.status = "PENDING";            // PENDING -> order sent to cuisine/bar
@@ -301,7 +302,8 @@ app.route('/orders')
                                             // READY -> order ready to be served
 
     newOrder.timeStamp = new Date();
-    newOrder.associatedWaiter = user.newUser(req.user).name;
+
+    console.log("User: " + newOrder.associatedWaiter + " created a new order: " + JSON.stringify(newOrder));
     newOrder.setTotal();
     //console.log("rotto con total?");
     order.getModel().create(newOrder).then((data) => {

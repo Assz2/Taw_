@@ -17,6 +17,6 @@ export class TableEditorComponent {
     if(this.sliderChecked)
       this.update.emit("true");
     else
-      this.update.emit("")
+      this.update.emit("");
     }
 }

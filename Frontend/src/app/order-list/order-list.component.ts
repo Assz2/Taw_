@@ -22,6 +22,7 @@ export class OrderListComponent implements OnInit{
 
   public getOrders(){
     //this.filter = this.ts.inheritedFilter;
+    
     this.os.getOrders(this.filter).subscribe({
       next: (data) => {
         console.log("Received orders: " + this.orders);
