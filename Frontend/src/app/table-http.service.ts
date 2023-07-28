@@ -6,9 +6,9 @@ import { UserHttpService } from './user-http.service';
 
 
 export interface Table{
-  number: number;
-  seats: number;
-  occ: boolean;
+  tableId: number;                         // number
+  seats: number;                          // seats
+  free: boolean; 
 }
 
 @Injectable()
@@ -46,7 +46,7 @@ export class TableHttpService {
   }
 
   getTables(filter: string): Observable<Table[]> {
-    return this.http.get<Table[]>(this.url + '/tables', this.createOptions({occ: filter})).pipe(
+    return this.http.get<Table[]>(this.url + '/tables', this.createOptions({free: filter})).pipe(
       map( (data: any) => data.tables),
       tap( (data) => console.log("Received tables: " + JSON.stringify(data)) ),
       catchError(this.handleError)

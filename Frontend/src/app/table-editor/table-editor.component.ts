@@ -15,7 +15,7 @@ export class TableEditorComponent {
     const slider = event.target as HTMLInputElement;
     this.sliderChecked = slider.checked;
     if(this.sliderChecked)
-      this.update.emit("false");
+      this.update.emit("true");
     else
       this.update.emit("")
     }

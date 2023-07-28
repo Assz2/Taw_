@@ -6,15 +6,15 @@
 
 <div class="center">
     <div class="grid-container">
-        <button class="grid-item" *ngFor="let Table of tables" (click)="goToTable(Table.number)">
-            <div *ngIf="Table.occ==false" class="tb-free">
-                <p class="free-tb-number">{{Table.number}}</p>
+        <button class="grid-item" *ngFor="let Table of tables" (click)="goToTable(Table.tableId)">
+            <div *ngIf="Table.free==true" class="tb-free">
+                <p class="free-tb-number">{{Table.tableId}}</p>
                 <img src="assets/images/tableIco.png" alt="Table" class="free-table-image">
                 <p class="free-tb-seats"> TABLE SEATS: &nbsp;{{Table.seats}}</p>
             </div>
             
-            <div *ngIf="Table.occ==true" class="tb-occ">
-                <p class="occ-tb-number">{{Table.number}}</p>
+            <div *ngIf="Table.free==false" class="tb-occ">
+                <p class="occ-tb-number">{{Table.tableId}}</p>
                 <img src="assets/images/tableIco.png" alt="Table" class="occ-table-image">
                 <p class="occ-tb-seats">TABLE SEATS: &nbsp;{{Table.seats}}</p>
             </div>
