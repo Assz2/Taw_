@@ -11,8 +11,8 @@ import { TableHttpService } from '../table-http.service';
 export class OrderListComponent implements OnInit{
 
   public orders: Order[] = [];
-  
-  private filter: Number;
+  public filter: Number;
+
   constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService) { 
     this.filter = this.ts.inheritedFilter;
   }
@@ -23,8 +23,9 @@ export class OrderListComponent implements OnInit{
     this.getOrders();
   }
 
-  public getOrders(){
-    //this.filter = this.ts.inheritedFilter;
+  public getOrders(id?: number){
+    if(id)
+      this.filter = id;
     
     this.os.getOrders(this.filter).subscribe({
       next: (data) => {
@@ -41,9 +42,4 @@ export class OrderListComponent implements OnInit{
       }
     });
   }
-
-  goToTable(id: number){
-    this.ts.inheritedFilter = id;
-    this.router.navigate(['/orders']);
-  } 
 }

@@ -52,6 +52,8 @@ export class OrderHttpService {
     };
   }
 
+
+
   getOrders(filter: Number): Observable<Order[]> {
     if(filter == -1){
       return this.Http.get<Order[]>(this.url + '/orders', this.createOptions()).pipe(
@@ -61,11 +63,14 @@ export class OrderHttpService {
       );
     }
     else{
-      return this.Http.get<Order[]>(this.url + '/orders', this.createOptions({tb: filter})).pipe(
+      return this.Http.get<Order[]>(this.url + '/orders', this.createOptions( {tb: filter} )).pipe(
         map( (data: any) => data.orders),
         tap( (data) => console.log("Received orders: " + JSON.stringify(data)) ),
         catchError(this.handleError)
       );
     }
   }
+
+
+  
 }

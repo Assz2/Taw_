@@ -4,12 +4,20 @@
 
 
 <div class="center">
-    <div class="grid-container">
-        <button class="grid-item" *ngFor="let Order of orders" (click)="goToTable(Order.tableId)">
-            <p>Order of table: {{Order.tableId}}</p>
-
-            <div *ngFor="let Items of Order.items">
-                ABC
-            </div>
+    <div *ngIf="filter === -1; else goToItems">
+        <button *ngFor="let Order of orders" class="row" (click)="getOrders(Order.tableId)">
+            <img src="assets/images/order-list.png" alt="Order List" style="width: 100px; height: 100px;">
+            <h3> Table Order: {{Order.tableId}} </h3>
+            <h3> Total of the Order: {{Order.total}}</h3>
         </button>
+    </div>
+
+
+    <ng-template #goToItems>
+        <div *ngFor="let Order of orders">
+            <div *ngFor="let Item of Order.items">
+                <p>Prova Prova</p>
+            </div>
+        </div>
+    </ng-template>
 </div>
