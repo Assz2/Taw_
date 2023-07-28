@@ -18,13 +18,11 @@ export interface Order{ // define interface
 var orderSchema = new mongoose.Schema<Order>({ // create schema
     tableId: {
         type: mongoose.SchemaTypes.Number,
-        required: true,
-        unique: true
+        required: true
     },
     associatedWaiter: {
         type: mongoose.SchemaTypes.String,
-        required: false,
-        unique: true
+        required: false
     },
     items: {
         type: [mongoose.SchemaTypes.String],

@@ -2,8 +2,14 @@
 <app-order-editor (update)="updateFilter($event)"></app-order-editor>
 -->
 
+
 <div class="center">
-    <div class="ordered-item" *ngFor="let Order of orders">
-        <p>Prova</p>
-    </div>
+    <div class="grid-container">
+        <button class="grid-item" *ngFor="let Order of orders" (click)="goToTable(Order.tableId)">
+            <p>Order of table: {{Order.tableId}}</p>
+
+            <div *ngFor="let Items of Order.items">
+                ABC
+            </div>
+        </button>
 </div>

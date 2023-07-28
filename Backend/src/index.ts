@@ -305,7 +305,7 @@ app.route('/orders')
 
     console.log("User: " + newOrder.associatedWaiter + " created a new order: " + JSON.stringify(newOrder));
     newOrder.setTotal();
-    //console.log("rotto con total?");
+    console.log("rotto con total?");
     order.getModel().create(newOrder).then((data) => {
 
         //socket.io emit
@@ -320,7 +320,7 @@ app.route('/orders')
         //table set free = false
         table.getModel().findOneAndUpdate({tableId: newOrder.tableId}, {free: false}).then((data) => {})
         .catch((err) => {
-            return res.status(500).json({error: true, errormessage: err});
+            //return res.status(500).json({error: true, errormessage: err});
         });
 
         return res.status(200).json({error: false, errormessage: "", id: data._id});

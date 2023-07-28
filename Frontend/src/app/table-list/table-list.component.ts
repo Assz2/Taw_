@@ -42,8 +42,8 @@ export class TableListComponent implements OnInit {
     this.getTables();
   }
   
-  goToTable(id?: number){
-    this.ts.inheritedFilter = id || -1;
+  goToOrder(id: number){
+    this.ts.inheritedFilter = id;
     this.router.navigate(['/orders']);
   }
 

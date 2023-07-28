@@ -41,4 +41,9 @@ export class OrderListComponent implements OnInit{
       }
     });
   }
+
+  goToTable(id: number){
+    this.ts.inheritedFilter = id;
+    this.router.navigate(['/orders']);
+  } 
 }

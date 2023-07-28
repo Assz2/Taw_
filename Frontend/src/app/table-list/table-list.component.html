@@ -6,7 +6,7 @@
 
 <div class="center">
     <div class="grid-container">
-        <button class="grid-item" *ngFor="let Table of tables" (click)="goToTable(Table.tableId)">
+        <button class="grid-item" *ngFor="let Table of tables" (click)="goToOrder(Table.tableId)">
             <div *ngIf="Table.free==true" class="tb-free">
                 <p class="free-tb-number">{{Table.tableId}}</p>
                 <img src="assets/images/tableIco.png" alt="Table" class="free-table-image">

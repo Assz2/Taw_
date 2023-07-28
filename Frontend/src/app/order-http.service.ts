@@ -15,6 +15,14 @@ export interface Order{ // define interface
   timeStamp: Date;                             // timeStamp 
 }
 
+export interface Item{
+  name: string;
+  type: string;
+  price: number;
+  popularity: number;
+  description: string;
+}
+
 @Injectable()
 export class OrderHttpService {
 
