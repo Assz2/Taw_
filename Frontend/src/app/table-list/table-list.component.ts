@@ -18,6 +18,7 @@ export class TableListComponent implements OnInit {
 
   ngOnInit(){
     this.getTables();
+    
   }
 
   public getTables(){
