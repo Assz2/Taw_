@@ -20,7 +20,7 @@ export class TableHttpService {
   constructor(private http: HttpClient, private us: UserHttpService) {
     console.log("Table service instantiated");
     console.log("User service Token: " + us.getToken());
-    this.inheritedFilter = -1;
+    this.inheritedFilter = -1;  
   }
 
   private handleError(err: HttpErrorResponse){

@@ -12,11 +12,14 @@ export class OrderListComponent implements OnInit{
 
   public orders: Order[] = [];
   
-  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService) { }
+  private filter: Number;
+  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService) { 
+    this.filter = this.ts.inheritedFilter;
+  }
 
-  private filter: Number = this.ts.inheritedFilter;
-
+  
   ngOnInit(){
+    this.ts.inheritedFilter = -1;
     this.getOrders();
   }
 

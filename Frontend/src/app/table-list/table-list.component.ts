@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableHttpService, Table } from '../table-http.service';
 import { UserHttpService } from '../user-http.service';
@@ -14,11 +14,11 @@ export class TableListComponent implements OnInit {
   
   public tables: Table[] = [];
   private filter: string = "";
+
   constructor(private router: Router, private ts: TableHttpService, public us: UserHttpService) { }
 
   ngOnInit(){
     this.getTables();
-    
   }
 
   public getTables(){
@@ -41,9 +41,9 @@ export class TableListComponent implements OnInit {
     this.filter = event;
     this.getTables();
   }
-
-  goToTable(id: number){
-    this.ts.inheritedFilter = id;
+  
+  goToTable(id?: number){
+    this.ts.inheritedFilter = id || -1;
     this.router.navigate(['/orders']);
   }
 
