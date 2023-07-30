@@ -297,9 +297,9 @@ app.route('/orders')
         associatedWaiter: associatedWaiter,
         items: items, 
     });
-    newOrder.status = "PENDING";            // PENDING -> order sent to cuisine/bar
-                                            // QUEUE -> order being prepared
-                                            // READY -> order ready to be served
+    newOrder.status = "PENDING";            // PENDING -> order sent to cuisine/bar -> RED
+                                            // QUEUE -> order being prepared        -> YELLOW
+                                            // READY -> order ready to be served    -> GREEN
 
     newOrder.timeStamp = new Date();
     await newOrder.setTotal();
