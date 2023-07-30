@@ -11,7 +11,7 @@ export interface Order{ // define interface
     total: number;                              // total                       
     timeStamp: Date;                             // timeStamp   
     
-    setTotal(): void;                            // set total
+    setTotal(): void;                           // set total
 }
 
 
@@ -64,14 +64,35 @@ orderSchema.methods.updateTotal = function(item: string){
     });
 }
 */
-
-orderSchema.methods.setTotal = function(){
+/*
+orderSchema.methods.setTotal = function(): number{
+    var total = 0;
     this.items.forEach((data) => {
         it.getModel().findOne({name: data}).then((item) => {
-            this.total += item.price as number;
+            console.log(item + " with a price of:" + item.price);
+            total += item.price as number;
+            console.log("Total 1: " + total);
         }).catch((err) => {
             console.log(err);
         })
+    });
+    console.log("Total 2: " + total);
+    return total;
+}*/
+
+orderSchema.methods.setTotal = function(){
+    var tot = 0;
+    
+    const promises = this.items.map((data) => 
+            it.getModel().findOne({ name: data }).then((item) => {
+                tot += item.price as number;
+            }).catch((err) => {
+                console.log(err);
+            })
+        );
+    
+    return Promise.all(promises).then(() => {
+        this.total = tot;
     });
 }
 

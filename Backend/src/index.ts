@@ -283,7 +283,7 @@ app.route('/orders')
         return res.status(500).json({error: true, errormessage: err});
     })
 })
-.post(auth, (req, res) => {
+.post(auth, async (req, res) => {
     //i want to notify through socket.io the users with role 'BARTENDER' and 'COOKS' that a new order has been created
 
     //for me of the future: I think I dont need in the backend to push any item into the item[] array bcause when I will do a request
@@ -302,10 +302,8 @@ app.route('/orders')
                                             // READY -> order ready to be served
 
     newOrder.timeStamp = new Date();
-
-    console.log("User: " + newOrder.associatedWaiter + " created a new order: " + JSON.stringify(newOrder));
-    newOrder.setTotal();
-    console.log("rotto con total?");
+    await newOrder.setTotal();
+    console.log("New order: " + JSON.stringify(newOrder));
     order.getModel().create(newOrder).then((data) => {
 
         //socket.io emit
