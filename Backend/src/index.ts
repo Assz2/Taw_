@@ -39,7 +39,9 @@
  * 
  *     /menu                  ?type=                       GET                      Returns a list of all menu items eventually filtered by type (food or drinks) (authorization required)
  * 
- *     /menu/:name            None                         GET                      Removes a menu item by id (authorization required) (only cashier can delete menu items by id)
+ *     /menu/:name            None                         GET                      Returns a menu item by id (authorization required)
+ *  
+ *     /menu/:name            None                         DELETE                   Removes a menu item by id (authorization required) (only cashier can delete menu items by id)
  * 
  *     /menu                  None                         POST                     Creates a new menu item (authorization required) (only cashier can create new menu items)
  * 
@@ -412,7 +414,15 @@ app.route('/menu')
     });
 });
 
-app.delete('/menu/:name', auth, authCashier, (req, res) => {
+app.route('/menu/:name')
+.get(auth, (req, res) => {
+    menu.getModel().find({name: req.params.name}).then((data) => {
+        return res.status(200).json({error: false, errormessage: "", item: data});
+    }).catch((err) => {
+        return res.status(500).json({error: true, errormessage: err});
+    });
+})
+.delete(auth, authCashier, (req, res) => {
     menu.getModel().findOneAndDelete({name: req.params.name}).then((data) => {
         return res.status(200).json({error: false, errormessage: "", item: data});
     }).catch((err) => {
