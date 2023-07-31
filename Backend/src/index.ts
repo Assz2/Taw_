@@ -358,7 +358,7 @@ app.route('/orders/:id')
         return res.status(401).json({err: "Cashier, cook or bartender authorization required"});
     }
 })
-.get(auth, (req, res) => {
+.get(auth, authCashier, (req, res) => {
     order.getModel().findOne( {tableId: req.params.id as undefined as number} ).then((data) => {
         return res.status(200).json({error: false, errormessage: "", order: data});
     }).catch((err) => {
