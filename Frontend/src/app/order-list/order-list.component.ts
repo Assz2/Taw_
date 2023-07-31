@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderHttpService, Order } from '../order-http.service';
 import { TableHttpService } from '../table-http.service';
+import { UserHttpService } from '../user-http.service';
 
 @Component({
   selector: 'app-order-list',
@@ -13,7 +14,7 @@ export class OrderListComponent implements OnInit{
   public orders: Order[] = [];
   public filter: Number;
 
-  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService) { 
+  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService, private us: UserHttpService) { 
     this.filter = this.ts.inheritedFilter;
   }
 
@@ -34,11 +35,17 @@ export class OrderListComponent implements OnInit{
           this.orders = data;
         else
           this.orders = [data];
-        
+
+        if(this.orders.length > 0){
+          this.orders.sort((a, b) => {
+            const statusOrder = { 'READY': 1, 'QUEUE': 2, 'PENDING': 3 };
+            return (statusOrder[a.status] - statusOrder[b.status]);
+          });
+        }
       },
       error: (err) => {
         console.log("Error: " + JSON.stringify(err));
-        //this.logout();
+        this.us.logout();
       }
     });
   }

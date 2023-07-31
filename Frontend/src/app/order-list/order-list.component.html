@@ -1,58 +1,58 @@
 <!--
 <app-order-editor (update)="updateFilter($event)"></app-order-editor>
 -->
-<div class="center-title">
-    <h1>ORDER LIST:</h1>
-</div>
+
+<div class="grid-container" *ngIf="filter === -1; else goToItems">
+    
+    <div class="center-title">
+        <h1>ORDER LIST:</h1>
+    </div>
 
 
+    <button class="grid-item" *ngFor="let Order of orders" (click)="getOrders(Order.tableId)">
 
-<div class="center">
-    <div class="grid-container" *ngIf="filter === -1; else goToItems">
-        <button class="grid-item" *ngFor="let Order of orders" (click)="getOrders(Order.tableId)">
-
-            <div *ngIf="Order.status === 'PENDING'">
-                <div class="image-class-pending">
-                    <img src="assets/images/order-list.png" alt="Order List" style="width: 100px; height: 100px;">
-                </div>
-
-                <div class="writes-pending">
-                    <div class="first-write">
-                        <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
-                    </div>
-
-                    <div class="second-write">
-                        <h3>TOTAL OF THE ORDER: {{Order.total}}</h3>
-                    </div>
-                </div>
+        <div *ngIf="Order.status === 'PENDING'">
+            <div class="image-class-pending">
+                <img src="assets/images/order-list.png" alt="Order List" style="width: 100px; height: 100px;">
             </div>
 
-
-            <div *ngIf="Order.status === 'QUEUE'">
-
-                <div class="image-class-queue">
-                    <img src="assets/images/order-list.png" alt="Order List" style="width: 100px; height: 100px;">
+            <div class="writes">
+                <div class="first-write">
+                    <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
                 </div>
 
-                <div class="writes-queue">
-                    <div class="first-write">
-                        <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
-                    </div>
-
-                    <div class="second-write">
-                        <h3>TOTAL OF THE ORDER: {{Order.total}}</h3>
-                    </div>
+                <div class="second-write">
+                    <h3>TOTAL OF THE ORDER: {{Order.total}}</h3>
                 </div>
             </div>
+        </div>
 
 
-            <div *ngIf="Order.status === 'READY'">
+        <div *ngIf="Order.status === 'QUEUE'">
+
+            <div class="image-class-queue">
+                <img src="assets/images/order-list.png" alt="Order List" style="width: 100px; height: 100px;">
+            </div>
+
+            <div class="writes">
+                <div class="first-write">
+                    <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
+                </div>
+
+                <div class="second-write">
+                    <h3>TOTAL OF THE ORDER: {{Order.total}}</h3>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="Order.status === 'READY'">
 
                 <div class="image-class-ready">
                     <img src="assets/images/order-list.png" alt="Order List" style="width: 100px; height: 100px;">
                 </div>
 
-                <div class="writes-ready">
+                <div class="writes">
                     <div class="first-write">
                         <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
                     </div>
@@ -61,15 +61,21 @@
                         <h3>TOTAL OF THE ORDER: {{Order.total}}</h3>
                     </div>
                 </div>
-            </div>
-        </button>
-    </div>
-
+        </div>
+    </button>
 </div>
 
 
 
+
+
 <ng-template #goToItems>
+    <button class="go-back-btn" style="margin-right: 20px; margin-top: 50px; width: 100px; height: 100px; 
+                                        border: 2px solid gray; border-radius: 50%; background-color: #f0f0f0;
+                                        overflow: hidden; display: flex; align-items: center; justify-content: center;">
+        <img src="assets/images/go-back.png" class="go-back" alt="Go Back" (click)="getOrders(-1)">
+    </button>
+
     <div *ngFor="let Order of orders">
         <div *ngFor="let Item of Order.items">
             <p>Prova Prova</p>
