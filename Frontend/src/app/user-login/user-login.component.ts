@@ -9,7 +9,7 @@ import { UserHttpService } from '../user-http.service';
 })
 export class UserLoginComponent implements OnInit{
   
-  public errMessage = undefined;
+  public errMessage: string = "";
   constructor( private router: Router, private us: UserHttpService  ) { }
   
     
@@ -21,12 +21,12 @@ export class UserLoginComponent implements OnInit{
       next: (data) => {
         console.log('Login granted: ' + JSON.stringify(data));
         console.log('User service token: ' + this.us.getToken());
-        this.errMessage = undefined;
+        this.errMessage = "";
         this.router.navigate(['/tables']);
       },
       error: (err) => {
         console.log('Login failed: ' + JSON.stringify(err));
-        this.errMessage = err.error.message;
+        this.errMessage = "Login failed."
       }
     });
   }

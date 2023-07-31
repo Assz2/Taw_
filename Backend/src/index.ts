@@ -136,10 +136,10 @@ passport.use(new passportHTTP.BasicStrategy(
     function(username, password, done){
         //console.log("New login from: " + username);
         user.getModel().findOne( {name: username}, (err: any, user: any) => {
-            if(!user.validatePassword(password)){
+            if(!user){
                 return done(null, false);
             }
-            else if(!user){
+            else if(!user.validatePassword(password)){
                 return done(null, false);
             }
             else if(err){
