@@ -71,6 +71,11 @@ export class OrderHttpService {
     }
   }
 
-
+  getItem(id: string): Observable<Item> {
+    return this.Http.get<Item>(this.url + '/items/' + id, this.createOptions()).pipe(
+      tap( (data) => console.log("Received item: " + JSON.stringify(data)) ),
+      catchError(this.handleError)
+    );
+  }
   
 }

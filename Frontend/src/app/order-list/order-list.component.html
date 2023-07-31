@@ -87,8 +87,9 @@
 
 
     <div *ngFor="let Order of orders">
-        <div *ngFor="let Item of Order.items" class="ordered-item">
-            
+        <div *ngFor="let idItem of Order.items" class="ordered-item">
+            <p>Item name: {{idItem}}</p>
+            <p>Item price: {{itemPrice}}</p>
         </div>
     </div>
 </ng-template>
