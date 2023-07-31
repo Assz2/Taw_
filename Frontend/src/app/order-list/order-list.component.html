@@ -75,10 +75,20 @@
                                         overflow: hidden; display: flex; align-items: center; justify-content: center;">
         <img src="assets/images/go-back.png" class="go-back" alt="Go Back" (click)="getOrders(-1)">
     </button>
+    <p class="go-back-text">Go Back to Order List</p>
+
+    <div class="center-title">
+        <h1>ORDER ITEMS:</h1>
+    </div>
+
+    <div>
+
+    </div>
+
 
     <div *ngFor="let Order of orders">
-        <div *ngFor="let Item of Order.items">
-            <p>Prova Prova</p>
+        <div *ngFor="let Item of Order.items" class="ordered-item">
+            
         </div>
     </div>
 </ng-template>

@@ -316,7 +316,9 @@ app.route('/orders')
         });
 
         //table set free = false
-        table.getModel().findOneAndUpdate({tableId: newOrder.tableId}, {free: false}).then((data) => {})
+        table.getModel().findOneAndUpdate({tableId: newOrder.tableId}, {free: false}).then((data) => {
+            data.save();
+        })
         .catch((err) => {
             //return res.status(500).json({error: true, errormessage: err});
         });
@@ -366,6 +368,11 @@ app.route('/orders/:id')
 .delete(auth, authCashier, (req, res) => {
     order.getModel().findOneAndDelete( {tableId: req.params.id as undefined as number} ).then((data) => {
 
+        //table set free = true
+        table.getModel().findOne({tableId: data.tableId}).then((data) => {
+            data.setFree();
+            data.save();
+        });
         var updateTotal = data.total; 
         stats.getModel().find().sort({date: -1}).limit(1).then((data) => {
             data[0].updateDaily(updateTotal);

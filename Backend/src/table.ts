@@ -1,4 +1,5 @@
 import mongoose = require('mongoose');
+import * as order from './order';
 
 export interface Table{
     readonly _id: mongoose.Types.ObjectId;  // readonly _id
