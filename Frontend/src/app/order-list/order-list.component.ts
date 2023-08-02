@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderHttpService, Order } from '../order-http.service';
 import { TableHttpService } from '../table-http.service';
@@ -9,6 +9,8 @@ import { UserHttpService } from '../user-http.service';
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.css']
 })
+
+
 export class OrderListComponent implements OnInit{
 
   public orders: Order[] = [];
@@ -59,7 +61,60 @@ export class OrderListComponent implements OnInit{
     });
   }
 
-  public getItem(id: string){
+  public getOrderedItems(id: number){
+    this.os.getOrders(id).subscribe({
+      next: (data) => {
+        console.log("Received Orders: " + data);
+
+        let order: Order[];
+        if(Array.isArray(data))
+          order = data;
+        else
+          order = [data];
+
+        this.orders.forEach((order) => {
+          order.items.forEach((itemId) => {
+            this.os.getItem(itemId).subscribe({
+              next: (item) => {
+                this.itemName = item.name;
+                this.itemPrice = item.price;
+                this.itemType = item.type;
+                this.itemPopularity = item.popularity;
+                this.itemDescription = item.description;
+              },
+              error: (err) => {
+                console.log("Error: " + JSON.stringify(err));
+                this.us.logout();
+              }
+            });
+          });
+        });
+      },
+      error: (err) => {
+        console.log("Error: " + JSON.stringify(err));
+        this.us.logout();
+      }
+    });
+  }
+
+
+
+  /*
+  public getItem(_item: any){
+    this.os.getItem(_item).subscribe({
+      next: (data) => {
+        this.itemName = data.name;
+        this.itemPrice = data.price;
+        this.itemType = data.type;
+        this.itemPopularity = data.popularity;
+        this.itemDescription = data.description;
+      }
+    });
+  }
+  */
+
+  /*
+  public getItems(id: string){
     this.os.getItem(id).subscribe({
       next: (data) => {
         this.itemName = data.name;
@@ -74,6 +129,7 @@ export class OrderListComponent implements OnInit{
       }
     });
   }
+  */
 /*
   public getItemName(id: string){
     return this.os.getItem(id).subscribe({

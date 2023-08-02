@@ -66,30 +66,38 @@
 </div>
 
 
-
-
-
-<ng-template #goToItems>
+<ng-template #goToItems {{getOrderedItems(filter)}}>
     <button class="go-back-btn" style="margin-right: 20px; margin-top: 50px; width: 100px; height: 100px; 
                                         border: 2px solid gray; border-radius: 50%; background-color: #f0f0f0;
                                         overflow: hidden; display: flex; align-items: center; justify-content: center;">
         <img src="assets/images/go-back.png" class="go-back" alt="Go Back" (click)="getOrders(-1)">
     </button>
+
     <p class="go-back-text">Go Back to Order List</p>
 
     <div class="center-title">
-        <h1>ORDER ITEMS:</h1>
+        <h1>ORDERED ITEMS:</h1>
     </div>
 
-    <div>
+    <p style="opacity: 0.6; font-weight: bold;">TABLE NUMBER: {{filter}}</p>
 
-    </div>
+    <p>item name: {{itemName}}</p>
+    
+
+</ng-template>
 
 
+<!--
+
+<ng-template #goToItems {{getItem(orders[filter].item)}}>
     <div *ngFor="let Order of orders">
-        <div *ngFor="let idItem of Order.items" class="ordered-item">
-            <p>Item name: {{idItem}}</p>
-            <p>Item price: {{itemPrice}}</p>
+        <p style="opacity: 0.6; font-weight: bold;">TABLE NUMBER: {{Order.tableId}}</p>
+        <div *ngFor="let idItem of Order.items" >
+            <div #_item>
+                
+            </div>
         </div>
     </div>
+
 </ng-template>
+--->

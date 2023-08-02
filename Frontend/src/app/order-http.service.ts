@@ -27,6 +27,14 @@ export interface Item{
 export class OrderHttpService {
 
   public url = "http://localhost:3000";
+
+  public itemName: string = "";
+  public itemType: string = "";
+  public itemPrice: number = 0;
+  public itemPopularity: number = 0;
+  public itemDescription: string = "";
+  
+
   constructor(private Http: HttpClient, private us: UserHttpService) { }
 
   private handleError(err: HttpErrorResponse){

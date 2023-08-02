@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/cor
 import { Router } from '@angular/router';
 import { TableHttpService, Table } from '../table-http.service';
 import { UserHttpService } from '../user-http.service';
+import { OrderHttpService, Order } from '../order-http.service';
 
 import { TableEditorComponent } from '../table-editor/table-editor.component';
+
 
 @Component({
   selector: 'app-table-list',
@@ -15,7 +17,7 @@ export class TableListComponent implements OnInit {
   public tables: Table[] = [];
   private filter: string = "";
 
-  constructor(private router: Router, private ts: TableHttpService, public us: UserHttpService) { }
+  constructor(private router: Router, private ts: TableHttpService, public us: UserHttpService, public os: OrderHttpService) { }
 
   ngOnInit(){
     this.getTables();
@@ -44,6 +46,24 @@ export class TableListComponent implements OnInit {
   
   goToOrder(id: number){
     this.ts.inheritedFilter = id;
+    this.os.getOrders(id).subscribe({
+      next: (data) => {
+        (data as unknown as Order).items.forEach(itemId => {
+          this.os.getItem(itemId).subscribe({
+            next: (item) => {
+              this.os.itemName = item.name;
+              this.os.itemPrice = item.price;
+              this.os.itemType = item.type;
+              this.os.itemPopularity = item.popularity;
+              this.os.itemDescription = item.description;
+            },
+            error: (err) => {
+              console.log("Error: " + JSON.stringify(err));
+            }
+          });
+        });
+      },
+    });
     this.router.navigate(['/orders']);
   }
 
