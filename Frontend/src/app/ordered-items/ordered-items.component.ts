@@ -43,4 +43,8 @@ export class OrderedItemsComponent implements AfterViewInit{
     this.parameterFromParent = -1;
     this.router.navigate(['/orders']);
   }
+
+  getItems(){
+    
+  }
 }

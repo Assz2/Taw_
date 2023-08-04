@@ -20,3 +20,77 @@
     margin-top: 50px;
     margin-bottom: 50px;
 }
+
+.grid-container{
+    display: absolute;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    text-align: center;
+}
+
+.grid-item{
+    border-radius: 20px;
+    box-shadow: 0px 2px 3px rgba(29, 163, 253, 0.532);
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.2s;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 100px;
+
+    display: absolute;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    text-align: center;
+}
+
+.image-class-div{
+    display: absolute;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    text-align: left;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+ 
+.image-class{
+    width: 99px;
+    height: 99px;
+}
+
+h3{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+h5{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.description{
+    margin-top: 20px;
+    margin-left: 40px;
+    margin-bottom: -20px;
+}
+
+.descrip-write-style{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.write-pop{
+    text-align: center;
+    margin-top: 35px;  
+    margin-left: 50px;
+}
+
+.write{
+    text-align: center;
+    margin-top: -102px;
+    margin-bottom: -15px;  
+    margin-left: 20px;
+}

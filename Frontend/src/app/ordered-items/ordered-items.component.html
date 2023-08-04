@@ -7,40 +7,88 @@
     <p class="go-back-text">Go Back to Order List</p>
 
 
+    <button class="add-item-btn">
+        <img src="assets/images/add-item.png" class="add-item" alt="Add Item" (click)="getItems()">
+    </button>
+    <p class="show-items-text">Add Items</p>
+
+
+
     <div class="center-title">
         <h1>ORDERED ITEMS:</h1>
     </div>
 
-    <div class="grid-item" *ngFor="let Item of RetrievedItems">
-        <div *ngIf="Item.type === 'food'">
-            <div class="image-class-food">
-                <img src="assets/images/food.png" alt="Food" style="width: 100px; height: 100px;">
-                <h1>Name: {{ Item.name }}</h1>
-                <h1>Type: {{ Item.type }}</h1>
-                <h1>Price: {{ Item.price }}</h1>
-            </div>
-        </div>
 
-        <div *ngIf="Item.type === 'drink'">
-            <div class="image-class-drink">
-                <div>
-                    <img src="assets/images/non-alcool-drink.png" alt="Drink" style="width: 100px; height: 100px;">
-                    <h1>Name: {{ Item.name }}</h1>
-                    <h1>Type: {{ Item.type }}</h1>
-                    <h1>Price: {{ Item.price }}</h1>
+    <div class="grid-container">    
+        <div class="grid-item" *ngFor="let Item of RetrievedItems">
+            <div *ngIf="Item.type === 'food'">
+                
+                <div class="image-class-div">
+                    <img class="image-class" src="assets/images/food.png" alt="Food">
                 </div>
-            </div>
-        </div>
+            
+                <div class="write">
+                    <h3>Name: &nbsp;{{ Item.name }}</h3>
+                    <h3>Type: &nbsp;{{ Item.type }}</h3>
+                    <h3>Price: &nbsp;{{ Item.price }}</h3>
+                </div>
 
-        <div *ngIf="Item.type === 'alcool'">
-            <div class="image-class-alcool">
-                <img src="assets/images/alcool-drink.png" alt="Alcool" style="width: 100px; height: 100px;">
-                <h1>Name: {{ Item.name }}</h1>
-                <h1>Type: {{ Item.type }}</h1>
-                <h1>Price: {{ Item.price }}</h1>
+                <div class="write-pop">
+                    <h5>POPULARITY: &nbsp; <progress max="100" value="Item.popularity"></progress></h5>
+                </div>
+
+                <div class="description" *ngIf="Item.description">
+                    <p class="descrip-write-style">DESCRIPTION: &nbsp;{{ Item.description }}</p>
+                </div>
+
             </div>
+
+
+            <div *ngIf="Item.type === 'drink'">
+
+                <div class="image-class-div">
+                    <img class="image-class"src="assets/images/non-alcool-drink.png" alt="Drink">
+                </div>
+
+                <div class="write">
+                    <h3>NAME: &nbsp;{{ Item.name }}</h3>
+                    <h3>TYPE: &nbsp;{{ Item.type }}</h3>
+                    <h3>PRICE: &nbsp;{{ Item.price }}</h3>
+                </div>
+
+                <div class="write-pop">
+                    <h5>POPULARITY: &nbsp; <progress max="100" value="Item.popularity"></progress></h5>
+                </div>
+
+                <div class="description" *ngIf="Item.description">
+                    <p class="descrip-write-style">DESCRIPTION: &nbsp;{{ Item.description }}</p>
+                </div>
+                    
+            </div>
+
+            <div *ngIf="Item.type === 'alcool'">
+
+                <div class="image-class-div">
+                    <img class="image-class" src="assets/images/alcool-drink.png" alt="Alcool">
+                </div>
+
+                <div class="write">
+                    <h3>NAME: &nbsp;{{ Item.name }}</h3>
+                    <h3>TYPE: &nbsp;{{ Item.type }}</h3>
+                    <h3>PRICE: &nbsp;{{ Item.price }}</h3>
+                </div>
+
+                <div class="write-pop">
+                    <h5>POPULARITY: &nbsp; <progress max="100" value="Item.popularity"></progress></h5>
+                </div>
+
+                <div class="description" *ngIf="Item.description">
+                    <p class="descrip-write-style">DESCRIPTION: &nbsp;{{ Item.description }}</p>
+                </div>
+                
+            </div>
+            
         </div>
-        <hr/>
     </div>
 
 </div>
