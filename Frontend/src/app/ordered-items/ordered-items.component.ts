@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Input, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { filter, forkJoin } from 'rxjs';
+import { filter } from 'rxjs';
 import { Order, OrderHttpService } from '../order-http.service';
 import { ItemHttpService, Item } from '../item-http.service';
-
+import { ItemListComponent } from '../item-list/item-list.component';
 
 
 @Component({
@@ -14,7 +14,10 @@ import { ItemHttpService, Item } from '../item-http.service';
 export class OrderedItemsComponent implements AfterViewInit{
   @Input() parameterFromParent: Number;
 
+  @ViewChild(ItemListComponent) itemList: ItemListComponent;
+
   public RetrievedItems: Item[] = [];
+  public addItem: Boolean = false;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private os: OrderHttpService, private it: ItemHttpService) { }
 
@@ -45,6 +48,7 @@ export class OrderedItemsComponent implements AfterViewInit{
   }
 
   getItems(){
-    
+    this.addItem = true;
+    //this.router.navigate(['/menu']);
   }
 }

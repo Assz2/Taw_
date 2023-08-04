@@ -53,4 +53,45 @@ export class ItemHttpService {
       catchError(this.handleError)
     );
   }
+/*
+  public getItems(): Observable<Item[]>{
+    return this.Http.get<Item[]>(this.url + '/menu', this.createOptions()).pipe(
+      map( (data: any) => data.items),
+      tap( items => (console.log('Data: ' + JSON.stringify(items))) ),
+      catchError(this.handleError)
+    );
+  }
+  */
+
+  public getFood(): Observable<Item[]>{
+    return this.Http.get<Item[]>(this.url + '/menu', this.createOptions({ type: "food" })).pipe(
+      map( (data: any) => data.menu),
+      tap( items => (console.log('Data: ' + JSON.stringify(items))) ),
+      catchError(this.handleError)
+    );
+  }
+
+  public getDrinks(): Observable<Item[]>{
+    return this.Http.get<Item[]>(this.url + '/menu', this.createOptions( { type: "drink" } )).pipe(
+      map( (data: any) => data.menu),
+      tap( items => (console.log('Data: ' + JSON.stringify(items))) ),
+      catchError(this.handleError)
+    );
+  }
+
+  public getAlcool(): Observable<Item[]>{
+    return this.Http.get<Item[]>(this.url + '/menu', this.createOptions( { type: "alcool" } )).pipe(
+      map( (data: any) => data.menu),
+      tap( items => (console.log('Data: ' + JSON.stringify(items))) ),
+      catchError(this.handleError)
+    );
+  }
+
+  public getItems(filter?: string): Observable<Item[]>{
+    return this.Http.get<Item[]>(this.url + '/menu', this.createOptions( { type: filter } )).pipe(
+      map( (data: any) => data.menu),
+      tap( items => (console.log('Data: ' + JSON.stringify(items))) ),
+      catchError(this.handleError)
+    );
+  }
 }

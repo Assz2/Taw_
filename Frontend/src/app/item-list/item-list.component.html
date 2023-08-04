@@ -1,0 +1,5 @@
+<app-item-list-editor (update)="getFilteredItems($event)"></app-item-list-editor>
+
+<div *ngFor="let Item of RetrievedItems">
+    <h1>Name: {{Item.name}}</h1>
+</div>

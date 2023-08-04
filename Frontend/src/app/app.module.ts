@@ -16,6 +16,8 @@ import { OrderListComponent } from './order-list/order-list.component';
 import { OrderHttpService } from './order-http.service';
 import { OrderedItemsComponent } from './ordered-items/ordered-items.component';
 import { ItemHttpService } from './item-http.service';
+import { ItemListComponent } from './item-list/item-list.component';
+import { ItemListEditorComponent } from './item-list-editor/item-list-editor.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { ItemHttpService } from './item-http.service';
     TableListComponent,
     TableEditorComponent,
     OrderListComponent,
-    OrderedItemsComponent
+    OrderedItemsComponent,
+    ItemListComponent,
+    ItemListEditorComponent
   ],
   
   // Services
