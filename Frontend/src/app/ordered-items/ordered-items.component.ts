@@ -23,26 +23,6 @@ export class OrderedItemsComponent implements AfterViewInit{
     if(this.parameterFromParent)
       this.getOrderedItems();
   }
-
-  /*
-  getOrderedItems() {
-    this.os.getOrders(this.parameterFromParent).subscribe(data => {
-      const itemObservables = data.flatMap(element =>
-        element.items.map(itemId => this.it.getItemByName(itemId))
-      );
-      
-      forkJoin(itemObservables).subscribe(retrItems => {
-        this.RetrievedItems = retrItems as Item[];
-        this.cdr.detectChanges(); // Trigger change detection
-        console.log("Retrieved Items: " + JSON.stringify(this.RetrievedItems));
-        
-        // You can add a separate log here to see the array contents after all items are fetched.
-        console.log("Final Retrieved Items: ", JSON.stringify(this.RetrievedItems));
-      });
-    });
-  }
-  */
-
   
   getOrderedItems() {
     this.os.getOrders(this.parameterFromParent).subscribe(data => {
@@ -58,37 +38,9 @@ export class OrderedItemsComponent implements AfterViewInit{
       console.log("Retrieved Item: " + JSON.stringify(this.RetrievedItems));
     });
   }
-  
 
-  /*
-  getOrderedItems(){
-    this.os.getOrders(this.parameterFromParent).subscribe(data => {
-      data.forEach(element => {
-        element.items.forEach(itemId => {
-          this.it.getItemByName(itemId).subscribe(retrItem => {
-            this.RetrievedItems.push(retrItem as Item);
-          });
-        });
-      });
-      this.cdr.detectChanges();
-      console.log("Retrieved Item: " + JSON.stringify(this.RetrievedItems));
-    });
+  getOrders(filter: Number){
+    this.parameterFromParent = -1;
+    this.router.navigate(['/orders']);
   }
-  */
-  /*
-  getOrderedItems(id: Number){
-    this.os.getOrders(id).subscribe(data => {
-      data.forEach(element => {
-        element.items.forEach(itemId => {
-          this.it.getItemByName(itemId).subscribe(retrItem => {
-            this.RetrievedItems.push(retrItem as Item);
-          });
-        });
-      });
-      this.cdr.detectChanges();
-    });
-
-    console.log("Retrieved Item: " + JSON.stringify(this.RetrievedItems));
-  }
-  */
 }
