@@ -7,11 +7,12 @@
     <p class="go-back-text">Go Back to Order List</p>
 
 
-    <button class="add-item-btn">
-        <img src="assets/images/add-item.png" class="add-item" alt="Add Item" (click)="getItems()">
-    </button>
-    <p class="show-items-text">Add Items</p>
-
+    <div class="align-right">
+        <button class="add-item-btn">
+            <img src="assets/images/add-item.png" class="add-item" alt="Add Item" (click)="getItems()">
+        </button>
+        <p class="show-items-text">Add Items</p>
+    </div>
 
 
     <div class="center-title">
@@ -92,9 +93,6 @@
     </div>
 
 </div>
-
-
-
 
 <ng-template #goBack>
     <app-order-list></app-order-list>
