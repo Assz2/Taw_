@@ -14,6 +14,8 @@ import { TableHttpService } from './table-http.service';
 import { TableEditorComponent } from './table-editor/table-editor.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { OrderHttpService } from './order-http.service';
+import { OrderedItemsComponent } from './ordered-items/ordered-items.component';
+import { ItemHttpService } from './item-http.service';
 
 
 @NgModule({
@@ -31,14 +33,16 @@ import { OrderHttpService } from './order-http.service';
     UserLoginComponent,
     TableListComponent,
     TableEditorComponent,
-    OrderListComponent
+    OrderListComponent,
+    OrderedItemsComponent
   ],
   
   // Services
   providers: [
     { provide: UserHttpService, useClass: UserHttpService},
     { provide: TableHttpService, useClass: TableHttpService},
-    { provide: OrderHttpService, useClass: OrderHttpService}
+    { provide: OrderHttpService, useClass: OrderHttpService},
+    { provide: ItemHttpService, useClass: ItemHttpService }
   ],
 
   exports: [ AppRoutingModule ],

@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderHttpService, Order } from '../order-http.service';
 import { TableHttpService } from '../table-http.service';
 import { UserHttpService } from '../user-http.service';
+import { OrderedItemsComponent } from '../ordered-items/ordered-items.component';
 
 @Component({
   selector: 'app-order-list',
@@ -10,20 +11,14 @@ import { UserHttpService } from '../user-http.service';
   styleUrls: ['./order-list.component.css']
 })
 
+//@ViewChild('filteredOrder', { static: false }) OrderedItemsComponent;
+
 
 export class OrderListComponent implements OnInit{
+  @ViewChild(OrderedItemsComponent) orderedItems: OrderedItemsComponent;
 
   public orders: Order[] = [];
   public filter: Number;
-
-  
-  public itemName: string = "";
-  public itemPrice: number = 0;
-  public itemType: string = "";
-  public itemPopularity: number = 0;
-  public itemDescription: string = "";
-  
-  
   
   constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService, private us: UserHttpService) { 
     this.filter = this.ts.inheritedFilter;
@@ -60,7 +55,7 @@ export class OrderListComponent implements OnInit{
       }
     });
   }
-
+/*
   public getOrderedItems(id: number){
     this.os.getOrders(id).subscribe({
       next: (data) => {
@@ -76,6 +71,7 @@ export class OrderListComponent implements OnInit{
           order.items.forEach((itemId) => {
             this.os.getItem(itemId).subscribe({
               next: (item) => {
+                console.log("Received Item: " + item);
                 this.itemName = item.name;
                 this.itemPrice = item.price;
                 this.itemType = item.type;
@@ -97,7 +93,7 @@ export class OrderListComponent implements OnInit{
     });
   }
 
-
+*/
 
   /*
   public getItem(_item: any){
