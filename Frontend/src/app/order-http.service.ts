@@ -28,13 +28,6 @@ export class OrderHttpService {
 
   public url = "http://localhost:3000";
 
-  public itemName: string = "";
-  public itemType: string = "";
-  public itemPrice: number = 0;
-  public itemPopularity: number = 0;
-  public itemDescription: string = "";
-  
-
   constructor(private Http: HttpClient, private us: UserHttpService) { }
 
   private handleError(err: HttpErrorResponse){
@@ -78,12 +71,4 @@ export class OrderHttpService {
       );
     }
   }
-
-  getItem(id: string): Observable<Item> {
-    return this.Http.get<Item>(this.url + '/items/' + id, this.createOptions()).pipe(
-      tap( (data) => console.log("Received item: " + JSON.stringify(data)) ),
-      catchError(this.handleError)
-    );
-  }
-  
 }

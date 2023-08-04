@@ -34,7 +34,7 @@ export class TableListComponent implements OnInit {
       },
       error: (err) => {
         console.log("Error: " + JSON.stringify(err));
-        //this.logout();
+        this.logout();
       }
     });
   }
@@ -43,27 +43,9 @@ export class TableListComponent implements OnInit {
     this.filter = event;
     this.getTables();
   }
-  
+
   goToOrder(id: number){
     this.ts.inheritedFilter = id;
-    this.os.getOrders(id).subscribe({
-      next: (data) => {
-        (data as unknown as Order).items.forEach(itemId => {
-          this.os.getItem(itemId).subscribe({
-            next: (item) => {
-              this.os.itemName = item.name;
-              this.os.itemPrice = item.price;
-              this.os.itemType = item.type;
-              this.os.itemPopularity = item.popularity;
-              this.os.itemDescription = item.description;
-            },
-            error: (err) => {
-              console.log("Error: " + JSON.stringify(err));
-            }
-          });
-        });
-      },
-    });
     this.router.navigate(['/orders']);
   }
 
