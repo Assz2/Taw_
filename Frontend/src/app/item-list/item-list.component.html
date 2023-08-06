@@ -1,5 +1,12 @@
-<app-item-list-editor (update)="getFilteredItems($event)"></app-item-list-editor>
+<div class="reduce-space">
+    <div clss="dropdown-container">
+        <app-item-list-editor (update)="getFilteredItems($event)"></app-item-list-editor>
+    </div>
+</div>
 
-<div *ngFor="let Item of RetrievedItems">
-    <h1>Name: {{Item.name}}</h1>
+<div class="scrollable-list">
+    <div class="item-list" *ngFor="let Item of RetrievedItems">
+        <h1>Name: {{Item.name}}</h1>
+        <h1>Type: {{Item.type}}</h1>
+    </div>
 </div>

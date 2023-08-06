@@ -147,4 +147,7 @@ h5{
     margin-top: 50px;
     border-radius: 10px;
     box-shadow: 0px 2px 3px rgba(29, 163, 253, 0.532);
+
+    padding: 20px;
+    box-sizing: border-box;
 }

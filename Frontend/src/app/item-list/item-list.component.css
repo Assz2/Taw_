@@ -1,0 +1,25 @@
+.reduce-space{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 210px;
+}   
+
+.dropdown-container{
+    display: absolute;
+    margin-top: 10px;
+}
+
+.scrollable-list {
+    justify-content: center;
+    align-items: center;
+    width: 825px;
+    height: 335px;
+    margin-top: -115px;
+    max-height: 335px;
+    overflow-y: auto;
+}
+
+.item-list{
+    margin-left: 250px;
+}
