@@ -20,16 +20,27 @@
             <p class="descrip-write-style">DESCRIPTION: &nbsp;{{ Item.description }}</p>
         </div>
 
-        <div class="plus"> <!--(click)="addItemToOrder(Item)-->
-            <button class="button-style-pl">
+        <div class="plus"> 
+            <button class="button-style-pl" (click)="addItemToOrder(Item)">
                 <img class="image-class" src="assets/images/add-item.png" alt="Add Item">
             </button>
         </div>
 
-        <div class="minus">
-            <button class="button-style-min">
+        <div *ngIf="graphicalOrder[Item.name]" class="minus">
+            <button class="button-style-min" (click)="removeItemFromOrder(Item)">
                 <img class="image-class" src="assets/images/remove-item.png" alt="Remove Item">
             </button>
         </div>
+        
+        
+        <div class="wrap-qta" *ngIf="graphicalOrder[Item.name]">
+            <p class="qta"> x {{graphicalOrder[Item.name]}}</p>
+        </div>
+    </div>
+
+    <div class="send-order-div" *ngIf="(graphicalOrder | json) != '{}'">
+        <button class="send-order-btn" (click)="sendOrder()">
+            <img class="send-order-img" src="assets/images/post-order.png" alt="Send Order">
+        </button>
     </div>
 </div>

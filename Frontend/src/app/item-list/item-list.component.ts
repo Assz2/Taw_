@@ -12,6 +12,9 @@ export class ItemListComponent implements AfterViewInit {
   public RetrievedItems: Item[] = [];
   private filter: string = "";
 
+  public newOrder: Item[] = [];
+  public graphicalOrder = {};
+
   constructor(private router: Router, private it: ItemHttpService) { }
 
   ngAfterViewInit(): void {
@@ -32,5 +35,25 @@ export class ItemListComponent implements AfterViewInit {
           return 0;
       });
     });
+  }
+
+  addItemToOrder(item: Item): void{
+    this.newOrder.push(item);
+    this.graphicalOrder[item.name] = (this.graphicalOrder[item.name] || 0) + 1;
+    console.log("NEW ORDER ARRAY: " + JSON.stringify(this.newOrder));
+    console.log("GRAPHICAL ORDER: " + JSON.stringify(this.graphicalOrder));
+  }
+
+  removeItemFromOrder(item: Item): void{
+    this.newOrder.splice(this.newOrder.indexOf(item), 1);
+    this.graphicalOrder[item.name] -= 1;
+    if(this.graphicalOrder[item.name] == 0 || this.graphicalOrder[item.name] == undefined || this.graphicalOrder[item.name] == null)
+      delete this.graphicalOrder[item.name];
+    console.log("NEW ORDER ARRAY" + JSON.stringify(this.newOrder));
+    console.log("GRAPHICAL ORDER: " + JSON.stringify(this.graphicalOrder));
+  }
+
+  sendOrder(): void{
+    
   }
 }
