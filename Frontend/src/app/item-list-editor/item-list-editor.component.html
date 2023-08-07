@@ -1,9 +1,19 @@
-<div class="dropdown">
-    <button class="dropbtn">Select filter</button>
-    <div class="dropdown-content">
-        <p><a href="#" (click)="filterFood($event)">FILTER FOOD</a></p>
-        <p><a href="#" (click)="filterDrink($event)">FILTER NON ALCOHOLIC DRINKS</a></p>
-        <p><a href="#" (click)="filterAlcool($event)">FILTER ALCOHOLIC DRINKS</a></p>
-        <p><a href="#" (click)="filterAll($event)">NO FILTER</a></p>
+<div class="move-drop">
+    <div class="dropdown">
+        <button class="dropbtn">Select filter</button>
+        <div class="dropdown-content">
+            <p><a href="#" (click)="filterFood($event)">FILTER FOOD</a></p>
+            <p><a href="#" (click)="filterDrink($event)">FILTER NON ALCOHOLIC DRINKS</a></p>
+            <p><a href="#" (click)="filterAlcool($event)">FILTER ALCOHOLIC DRINKS</a></p>
+            <p><a href="#" (click)="filterAll($event)">NO FILTER</a></p>
+        </div>
     </div>
-</div>  
+</div>
+
+<div class="ext-wrap">
+    <div class="btn-style">
+        <button class="button-exit" (click)="exit()">
+            <img src="assets/images/exit.png" alt="exit" class="exit">
+        </button>
+    </div>
+</div>

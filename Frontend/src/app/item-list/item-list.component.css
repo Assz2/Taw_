@@ -13,13 +13,31 @@
 .scrollable-list {
     justify-content: center;
     align-items: center;
-    width: 825px;
+    width: 763px;
     height: 335px;
     margin-top: -115px;
     max-height: 335px;
     overflow-y: auto;
 }
 
+.writes{
+    text-align: left;
+}
+
+h5{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+}
+
+.write-pop{
+    text-align: left;
+}
+
 .item-list{
-    margin-left: 250px;
+    border-radius: 20px;
+    box-shadow: 0px 2px 3px rgba(29, 163, 253, 0.532);
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-right: 20px;
 }

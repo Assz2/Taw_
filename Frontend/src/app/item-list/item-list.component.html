@@ -6,7 +6,14 @@
 
 <div class="scrollable-list">
     <div class="item-list" *ngFor="let Item of RetrievedItems">
-        <h1>Name: {{Item.name}}</h1>
-        <h1>Type: {{Item.type}}</h1>
+        <div class="writes">
+            <h5>NAME: {{Item.name}}</h5>
+            <h5>TYPE: {{Item.type}}</h5>
+        </div>
+        
+        <div class="write-pop">
+            <h5>POPULARITY: &nbsp; <progress max="100" value="Item.popularity"></progress></h5>
+        </div>
+
     </div>
 </div>

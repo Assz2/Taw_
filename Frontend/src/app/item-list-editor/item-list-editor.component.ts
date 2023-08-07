@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+//import { RouterExtensions } from '@nativescript/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-list-editor',
@@ -6,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./item-list-editor.component.css']
 })
 export class ItemListEditorComponent {
-  constructor() { }
+  constructor( private rt: Router) { }
 
   @Output() update: EventEmitter<string> = new EventEmitter<string>();
 
@@ -30,5 +32,9 @@ export class ItemListEditorComponent {
   filterAll(event: Event): void{
     this.filter = "";
     this.update.emit(this.filter);
+  }
+
+  exit(){
+    window.location.reload();
   }
 }
