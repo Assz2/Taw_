@@ -22,6 +22,15 @@ export class ItemListComponent implements AfterViewInit {
     this.filter = filterValue;
     this.it.getItems(this.filter).subscribe(data => {
       this.RetrievedItems = data;
+      
+      this.RetrievedItems.sort((a, b) => {
+        if(a.popularity > b.popularity) 
+          return -1;
+        else if(a.popularity < b.popularity) 
+          return 1; 
+        else 
+          return 0;
+      });
     });
   }
 }

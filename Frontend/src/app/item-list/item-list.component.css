@@ -41,3 +41,52 @@ h5{
     margin-bottom: 20px;
     margin-right: 20px;
 }
+
+.description{
+    text-align: left;
+    margin-bottom: -35px;
+}
+
+.descrip-write-style{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.pop-write-style{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.image-class{
+    width: 30px;
+    height: 35px;
+}
+
+.button-style-pl{
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    border: none;
+    background-color: green;
+}
+
+.button-style-min{
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    border: none;
+    background-color: orange;
+}
+
+.plus{
+    margin-left: 630px;
+    margin-top: -155px;
+}
+
+.minus{
+    margin-left: 630px;
+    margin-top: 50px;
+    margin-bottom: -20px;
+}

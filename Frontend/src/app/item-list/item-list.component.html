@@ -9,11 +9,27 @@
         <div class="writes">
             <h5>NAME: {{Item.name}}</h5>
             <h5>TYPE: {{Item.type}}</h5>
+            <h5>PRICE: {{Item.price}}€</h5>
         </div>
         
         <div class="write-pop">
-            <h5>POPULARITY: &nbsp; <progress max="100" value="Item.popularity"></progress></h5>
+            <p class="pop-write-style">POPULARITY: &nbsp; <progress max="100" value="Item.popularity"></progress></p>
         </div>
 
+        <div class="description" *ngIf="Item.description">
+            <p class="descrip-write-style">DESCRIPTION: &nbsp;{{ Item.description }}</p>
+        </div>
+
+        <div class="plus"> <!--(click)="addItemToOrder(Item)-->
+            <button class="button-style-pl">
+                <img class="image-class" src="assets/images/add-item.png" alt="Add Item">
+            </button>
+        </div>
+
+        <div class="minus">
+            <button class="button-style-min">
+                <img class="image-class" src="assets/images/remove-item.png" alt="Remove Item">
+            </button>
+        </div>
     </div>
 </div>
