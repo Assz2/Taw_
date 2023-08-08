@@ -17,7 +17,7 @@
 
 
         <div class="reduce-space" *ngIf="addItem">
-            <app-item-list></app-item-list>
+            <app-item-list [tabId]="parameterFromParent" #itemList></app-item-list>
         </div>
     </div>
 

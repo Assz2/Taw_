@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, ChangeDetectorRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { Order, OrderHttpService } from '../order-http.service';
@@ -14,10 +14,13 @@ import { ItemListComponent } from '../item-list/item-list.component';
 export class OrderedItemsComponent implements AfterViewInit{
   @Input() parameterFromParent: Number;
 
+  @Output() orderStatistic = new EventEmitter<Number>();
+
   @ViewChild(ItemListComponent) itemList: ItemListComponent;
 
   public RetrievedItems: Item[] = [];
   public addItem: Boolean = false;
+  public retrievedOrder: Order;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private os: OrderHttpService, private it: ItemHttpService) { }
 
@@ -30,6 +33,7 @@ export class OrderedItemsComponent implements AfterViewInit{
   getOrderedItems() {
     this.os.getOrders(this.parameterFromParent).subscribe(data => {
       data.forEach(element => {
+        this.retrievedOrder = element;
         element.items.forEach(itemId => {
           this.it.getItemByName(itemId).subscribe(retrItem => {
             console.log("Retrieved Item: " + JSON.stringify(retrItem));
@@ -48,7 +52,8 @@ export class OrderedItemsComponent implements AfterViewInit{
   }
 
   getItems(){
+    console.log("Actual TableId: " + (this.parameterFromParent));
+    this.orderStatistic.emit(this.parameterFromParent);
     this.addItem = true;
-    //this.router.navigate(['/menu']);
   }
 }

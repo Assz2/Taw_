@@ -71,4 +71,14 @@ export class OrderHttpService {
       );
     }
   }
+
+  public postOrder(order: {}){
+    //i want to pass an array of items through the request body
+    console.log("Order: " + JSON.stringify(order));
+    return this.Http.post(this.url + '/orders', order, this.createOptions()).pipe(
+      tap( (data) => console.log("Received orders: " + JSON.stringify(data)) ),
+      catchError(this.handleError)
+    );
+  }
+
 }
