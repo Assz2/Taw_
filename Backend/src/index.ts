@@ -85,6 +85,7 @@ import * as table from './table';
 import * as menu from './item';
 import * as stats from './stats';
 import e = require('express');
+import { Socket } from 'socket.io';
 
 
 
@@ -92,18 +93,28 @@ const app = express();
 const server = http.createServer(app);
 const port = 3000;  
 const { Server } = require("socket.io");
-const io = new Server(server);
+const socketIo = require("socket.io");
 const secret = process.env.JWT_SECRET;
+
+const corsOptions = {
+    origin: 'http://localhost:4200',
+    credentials: true
+};
+
+const io = socketIo(server, {
+    cors: corsOptions
+});
 
 var auth = expressjwt({secret: process.env.JWT_SECRET, algorithms: ['HS256']});
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use( (req, res, next) => {
     console.log(`Request_Endpoint: ${req.method} ${req.url}`);
     next();
 }); 
 
 app.use(express.json());
+
 
 var authCashier = (req: any, res: any, next: any) => {
     const authHeader = req.headers.authorization;
@@ -286,7 +297,7 @@ app.route('/orders')
     })
 })
 .post(auth, async (req, res) => {
-    //i want to notify through socket.io the users with role 'BARTENDER' and 'COOKS' that a new order has been created
+    //i want to notify through socket.io all the users with role 'BARTENDER' and 'COOKS' that a new order has been created
 
     //for me of the future: I think I dont need in the backend to push any item into the item[] array bcause when I will do a request
     //in post to this endpoint, i will value the order with the body of the request thus i will populate the array in the frontend
@@ -309,9 +320,9 @@ app.route('/orders')
     order.getModel().create(newOrder).then((data) => {
 
         //socket.io emit
-        user.getModel().find({role: {$in: ['BARTENDER', 'COOK']}}).then((us) => {
+        user.getModel().find(/*{role: {$in: ['BARTENDER', 'COOK']}}*/).then((us) => {
             us.forEach((user) => {
-                io.emit('New order arrived!', user.name);
+                io.emit('broadcast', user.name);
             });
         }).catch((err) => {
             return res.status(500).json({error: true, errormessage: err});

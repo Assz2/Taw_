@@ -4,6 +4,7 @@ import { OrderHttpService, Order } from '../order-http.service';
 import { TableHttpService } from '../table-http.service';
 import { UserHttpService } from '../user-http.service';
 import { OrderedItemsComponent } from '../ordered-items/ordered-items.component';
+import { SocketIoService } from '../socket-io.service';
 
 @Component({
   selector: 'app-order-list',
@@ -17,7 +18,7 @@ export class OrderListComponent implements OnInit{
   public orders: Order[] = [];
   public filter: Number;
   
-  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService, private us: UserHttpService) { 
+  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService, private us: UserHttpService, private sio: SocketIoService) { 
     this.filter = this.ts.inheritedFilter;
   }
 
@@ -25,6 +26,10 @@ export class OrderListComponent implements OnInit{
   ngOnInit(){
     this.ts.inheritedFilter = -1;
     this.getOrders();
+    this.sio.connect().subscribe( (data) => {
+      console.log("Received broadcast: " + JSON.stringify(data));
+      this.getOrders();
+    });
   }
 
   public getOrders(id?: number){
