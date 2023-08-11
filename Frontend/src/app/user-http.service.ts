@@ -40,7 +40,7 @@ export class UserHttpService {
   }
 
   login(name: string, password: string, rememeber: boolean): Observable<any> {
-    console.log("Login attempt from: " + name + ", " + password);
+    console.log("Login attempt from: " + name);
     const headers = new HttpHeaders({
       authorization: 'Basic ' + btoa(name + ':' + password),
       'cache-control': 'no-cache',
