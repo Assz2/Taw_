@@ -26,6 +26,10 @@
         <h1>ORDERED ITEMS:</h1>
     </div>
 
+    <div *ngIf="(userRole === 'CASHIER' || userRole === 'COOK' || userRole === 'BARTENDER') && (actualStatus != 'READY')">
+        <button class="status-btn" (click)="updateOrderStatus()"><p>CHANGE STATUS</p></button>
+    </div>
+
 
     <div class="grid-container">    
         <div class="grid-item" *ngFor="let Item of RetrievedItems">

@@ -356,14 +356,17 @@ app.route('/orders/:id')
     if(userRole === 'CASHIER' || userRole === 'COOK' || userRole === 'BARTENDER'){
 
         //i want to notify through socket.io the users with role 'WAITER' that an order has been updated and update the state of the order
-        order.getModel().findById( {_id: req.params.id} ).then((order) => {
-            user.getModel().findOne({name: order.associatedWaiter}).then((us: any) => {
-                io.emit('Order updated!', us);
-            })
-
-            order.status = req.body.status;
-            console.log("status: " + req.body.status);
-            order.save();
+        order.getModel().find( {tableId: req.params.id as unknown as number} ).then((order) => {
+            order.forEach((data) => {
+                user.getModel().findOne({name: data.associatedWaiter}).then((us: any) => {
+                    io.emit('OrderUpdate', us);
+                })
+                if(data.status != "READY"){
+                    data.status = req.body.status;
+                    console.log("status: " + req.body.status);
+                    data.save();
+                }
+            });
             return res.status(200).json({error: false, errormessage: "", order: order});
         })
 

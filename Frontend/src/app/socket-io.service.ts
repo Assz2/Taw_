@@ -11,7 +11,7 @@ export class SocketIoService {
   private socket: any;
   constructor(private us: UserHttpService) { }
 
-  connect(): Observable<any>{
+  connectToOrder(): Observable<any>{
     this.socket = io(this.us.url);
 
     return new Observable((observer) => {
@@ -27,6 +27,31 @@ export class SocketIoService {
 
       return {
         unsubscribe(){
+          this.socket.disconnect();
+        }
+      };
+    });
+  }
+
+
+
+  connectToChange(): Observable<any>{
+    this.socket = io(this.us.url);
+
+    return new Observable((observer) => {
+      this.socket.on('OrderUpdate', (data: any) => {
+        console.log("Received change: " + JSON.stringify(data));
+        observer.next(data);
+      });
+
+      this.socket.on('error', (err: any) => {
+        console.log("Received error: " + JSON.stringify(err));
+        observer.error(err);
+      });
+
+      return {
+        unsubscribe(){
+          this
           this.socket.disconnect();
         }
       };

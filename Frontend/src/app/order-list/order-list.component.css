@@ -76,5 +76,8 @@ h3{
     border-radius: 50%;
 }
 
-
+.status-btn{
+    background-color: aqua;
+    border: 3px solid rgb(228, 228, 228);
+}
 

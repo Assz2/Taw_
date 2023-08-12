@@ -18,7 +18,8 @@ export class OrderListComponent implements OnInit{
   public orders: Order[] = [];
   public filter: Number;
   
-  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService, private us: UserHttpService, private sio: SocketIoService) { 
+  constructor(private router: Router, private os: OrderHttpService, private ts: TableHttpService, 
+              private us: UserHttpService, private sio: SocketIoService) { 
     this.filter = this.ts.inheritedFilter;
   }
 
@@ -26,8 +27,13 @@ export class OrderListComponent implements OnInit{
   ngOnInit(){
     this.ts.inheritedFilter = -1;
     this.getOrders();
-    this.sio.connect().subscribe( (data) => {
+    this.sio.connectToOrder().subscribe( (data) => {
       console.log("Received broadcast: " + JSON.stringify(data));
+      this.getOrders();
+    });
+
+    this.sio.connectToChange().subscribe( (data) => {
+      console.log("Received change: " + JSON.stringify(data));
       this.getOrders();
     });
   }

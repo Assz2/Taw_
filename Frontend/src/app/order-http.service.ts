@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
@@ -25,10 +25,13 @@ export interface Item{
 
 @Injectable()
 export class OrderHttpService {
-
+  
   public url = "http://localhost:3000";
+  private newStatus: string;
 
-  constructor(private Http: HttpClient, private us: UserHttpService) { }
+  constructor(private Http: HttpClient, private us: UserHttpService) { 
+    this.newStatus = "";
+  }
 
   private handleError(err: HttpErrorResponse){
     let errMsg = '';
@@ -81,4 +84,25 @@ export class OrderHttpService {
     );
   }
 
+  public updateOrderStatus(id: Number){
+    this.getOrders(id).subscribe(data => {
+      const currentStatus = data[0].status;
+      console.log("Current status: " + currentStatus);
+
+      if(currentStatus === "PENDING")
+        this.newStatus = "QUEUE";
+      else if(currentStatus === "QUEUE")
+        this.newStatus = "READY";
+
+      const update = {"status": this.newStatus};
+
+      this.Http.put(this.url + '/orders/' + id, update, this.createOptions()).subscribe(
+        (data) => {
+          console.log("Received orders: " + JSON.stringify(data));
+        },
+        (error) => {
+          console.log("Error: " + JSON.stringify(error));
+        });
+    });
+  }
 }

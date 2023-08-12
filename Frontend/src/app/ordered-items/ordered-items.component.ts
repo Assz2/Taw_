@@ -4,6 +4,8 @@ import { filter } from 'rxjs';
 import { Order, OrderHttpService } from '../order-http.service';
 import { ItemHttpService, Item } from '../item-http.service';
 import { ItemListComponent } from '../item-list/item-list.component';
+import { UserHttpService } from '../user-http.service';
+import { SocketIoService } from '../socket-io.service';
 
 
 @Component({
@@ -21,13 +23,29 @@ export class OrderedItemsComponent implements AfterViewInit{
   public RetrievedItems: Item[] = [];
   public addItem: Boolean = false;
   public retrievedOrder: Order;
+  public userRole: string;
+  public actualStatus: string;
 
-  constructor(private router: Router, private cdr: ChangeDetectorRef, private os: OrderHttpService, private it: ItemHttpService) { }
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private os: OrderHttpService,
+              private it: ItemHttpService, private us: UserHttpService, private sio: SocketIoService) { }
 
   ngAfterViewInit() {
     console.log("parameterFromParent: " + this.parameterFromParent);
     if(this.parameterFromParent)
       this.getOrderedItems();
+
+    this.userRole = this.us.getRole();
+    console.log("User role: " + this.userRole);
+
+    this.os.getOrders(this.parameterFromParent).subscribe(data => {
+      this.actualStatus = data[0].status;
+    });
+
+    
+    this.sio.connectToChange().subscribe( (data) => {
+      console.log("Received change: " + JSON.stringify(data));
+      this.getOrders(-1);
+    });
   }
   
   getOrderedItems() {
@@ -55,5 +73,11 @@ export class OrderedItemsComponent implements AfterViewInit{
     console.log("Actual TableId: " + (this.parameterFromParent));
     this.orderStatistic.emit(this.parameterFromParent);
     this.addItem = true;
+  }
+
+  updateOrderStatus(){
+    this.os.updateOrderStatus(this.parameterFromParent);
+    //window.location.reload();
+    this.cdr.detectChanges();
   }
 }
