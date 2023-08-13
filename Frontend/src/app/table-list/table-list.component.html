@@ -4,6 +4,9 @@
     <h1 class="title"> TABLE LIST: </h1>
 </div>
 
+
+
+
 <div class="center">
     <div class="grid-container">
         <button class="grid-item" *ngFor="let Table of tables" (click)="goToOrder(Table.tableId)">
@@ -27,4 +30,8 @@
 
 <div class="center">
     <p><a routerLink="/orders"> View all orders </a></p>
+</div>
+
+<div>
+    <app-user-editor></app-user-editor>
 </div>

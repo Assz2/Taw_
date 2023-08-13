@@ -154,3 +154,53 @@ h5{
     padding: 20px;
     box-sizing: border-box;
 }
+
+.status-btn{
+    justify-content: center;
+    align-items: center;
+    margin-left: -90px;
+    background-color: white;
+    border: none;
+    border-radius: 7%;
+    box-shadow: 0px 2px 3px rgba(29, 163, 253, 0.532);
+    transition: transform 0.2s;
+    width: 150px;
+    height: 63px;
+}
+
+.status-btn:hover{
+    transform: scale(1.1);
+}
+
+.status-write{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    opacity: 0.7;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.delete-write{
+    font: 'Montserrat', sans-serif;
+    font-weight: bold;
+    opacity: 0.7;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.del-btn{
+    justify-content: center;
+    align-items: center;
+    margin-left: -90px;
+    background-color: white;
+    border: none;
+    border-radius: 7%;
+    box-shadow: 0px 2px 3px rgba(29, 163, 253, 0.532);
+    transition: transform 0.2s;
+    width: 150px;
+    height: 63px;
+}
+
+.del-btn:hover{
+    transform: scale(1.1);
+}

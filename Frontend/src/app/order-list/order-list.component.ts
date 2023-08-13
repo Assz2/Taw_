@@ -63,4 +63,8 @@ export class OrderListComponent implements OnInit{
       }
     });
   }
+
+  public back(){
+    this.router.navigate(['/tables']);
+  }
 }

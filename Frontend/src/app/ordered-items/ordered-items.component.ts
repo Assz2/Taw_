@@ -77,7 +77,19 @@ export class OrderedItemsComponent implements AfterViewInit{
 
   updateOrderStatus(){
     this.os.updateOrderStatus(this.parameterFromParent);
-    //window.location.reload();
+    this.actualStatus = this.os.currentStatus;
+    console.log("Actual status: " + this.actualStatus);
     this.cdr.detectChanges();
+  }
+
+  deleteOrder(){
+    console.log("Delete order: " + this.parameterFromParent);
+    this.os.getOrders(this.parameterFromParent).subscribe(data => {
+      data.forEach(element => {
+        //if(element.status === "READY")
+          this.os.deleteOrder(element);
+      });
+    });
+    this.router.navigate(['/orders']);
   }
 }

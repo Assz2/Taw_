@@ -26,8 +26,12 @@
         <h1>ORDERED ITEMS:</h1>
     </div>
 
-    <div *ngIf="(userRole === 'CASHIER' || userRole === 'COOK' || userRole === 'BARTENDER') && (actualStatus != 'READY')">
-        <button class="status-btn" (click)="updateOrderStatus()"><p>CHANGE STATUS</p></button>
+    <div *ngIf="(actualStatus) && (userRole === 'CASHIER' || userRole === 'COOK' || userRole === 'BARTENDER') && (actualStatus != 'READY')">
+        <button class="status-btn" (click)="updateOrderStatus()"><p class="status-write">CHANGE STATUS</p></button>
+    </div>
+
+    <div *ngIf="(userRole === 'CASHIER') && (actualStatus === 'READY')">
+        <button class="del-btn" (click)="deleteOrder()"><p class="delete-write">DELETE ORDER</p></button>
     </div>
 
 
@@ -104,6 +108,8 @@
     </div>
 
 </div>
+
+
 
 <ng-template #goBack>
     <app-order-list></app-order-list>

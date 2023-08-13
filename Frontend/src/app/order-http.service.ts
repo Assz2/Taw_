@@ -28,9 +28,11 @@ export class OrderHttpService {
   
   public url = "http://localhost:3000";
   private newStatus: string;
+  public currentStatus: string;
 
   constructor(private Http: HttpClient, private us: UserHttpService) { 
     this.newStatus = "";
+    this.currentStatus = "";
   }
 
   private handleError(err: HttpErrorResponse){
@@ -86,12 +88,18 @@ export class OrderHttpService {
 
   public updateOrderStatus(id: Number){
     this.getOrders(id).subscribe(data => {
-      const currentStatus = data[0].status;
-      console.log("Current status: " + currentStatus);
+      var i = 0;
+      while(i < data.length && data[i].status != "READY"){
+        this.currentStatus = data[i].status;
+        i++;
+      }
+      
+      console.log("Current status: " + this.currentStatus);
 
-      if(currentStatus === "PENDING")
+
+      if(this.currentStatus === "PENDING")
         this.newStatus = "QUEUE";
-      else if(currentStatus === "QUEUE")
+      else if(this.currentStatus === "QUEUE")
         this.newStatus = "READY";
 
       const update = {"status": this.newStatus};
@@ -104,5 +112,26 @@ export class OrderHttpService {
           console.log("Error: " + JSON.stringify(error));
         });
     });
+  }
+
+  public deleteOrder(ord: Order){
+    this.Http.delete(this.url + '/orders/' + ord.tableId, this.createOptions()).subscribe(
+      (data) => {
+        console.log("Received orders: " + JSON.stringify(data));
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+      });
+
+    /*
+    this.getOrders(id).subscribe(data => {
+      data.forEach(element => {
+          return this.Http.delete(this.url + '/orders/' + element.tableId, this.createOptions()).pipe(
+            tap( (data) => console.log("Delete order: " + JSON.stringify(data)) ),
+            catchError(this.handleError)
+          );
+      });
+    });
+    */
   }
 }
