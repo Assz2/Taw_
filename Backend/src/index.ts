@@ -82,10 +82,11 @@ const { expressjwt: expressjwt } = require('express-jwt');
 import * as user from './user';
 import * as order from './order';
 import * as table from './table';
-import * as menu from './item';
+import item, * as menu from './item';
 import * as stats from './stats';
 import e = require('express');
 import { Socket } from 'socket.io';
+import { count } from 'console';
 
 
 
@@ -521,6 +522,86 @@ mongoose.connect('mongodb://127.0.0.1:27017/Taw')
     }
 ).then(
     () => {
+        return menu.getModel().countDocuments({});
+    }
+).then(
+    (count) => {
+        if(count == 0){
+            console.log("Adding some menu items into the db");
+            let it1 = menu.getModel().create({
+                name: "Pizza",
+                type: "food",
+                price: 5,
+                popularity: 0,
+                description: "Pizza margherita"
+            });
+            let it2 = menu.getModel().create({
+                name: "Acqua",
+                type: "drink",
+                price: 2,
+                popularity: 0,
+                description: "Acqua naturale"
+            });
+            let it3 = menu.getModel().create({
+                name: "Vino",
+                type: "alcool",
+                price: 20,
+                popularity: 0,
+                description: "Vino bianco"
+            });
+            let it4 = menu.getModel().create({
+                name: "Pasta",
+                type: "food",
+                price: 10,
+                popularity: 0,
+                description: "Pasta al pomodoro"
+            });
+            let it5 = menu.getModel().create({
+                name: "Uova",
+                type: "food",
+                price: 9,
+                popularity: 0,
+                description: "Frittata con cipolla, formaggio e speck"
+            });
+        }
+    }
+).then(
+    () => {
+        return table.getModel().countDocuments({});
+    }
+).then(
+    (count) => {
+        if(count == 0){
+            console.log("Adding some tables into the db");
+            let tb1 = table.getModel().create({
+                tableId: 1,
+                seats: 4,
+                free: true
+            });
+            let tb2 = table.getModel().create({
+                tableId: 2,
+                seats: 4,
+                free: true
+            });
+            let tb3 = table.getModel().create({
+                tableId: 3,
+                seats: 2,
+                free: true
+            });
+            let tb4 = table.getModel().create({
+                tableId: 4,
+                seats: 2,
+                free: true
+            });
+            let tb5 = table.getModel().create({
+                tableId: 5,
+                seats: 6,
+                free: true
+            });
+        }
+    }
+).then(
+    () => {
         io.on('connection', function(client : any) {
             console.log('Socket.io client: ' + client + ' connected');
         });
@@ -537,4 +618,3 @@ mongoose.connect('mongodb://127.0.0.1:27017/Taw')
 );
 
 // FIRST CONNECTION TO DATABASE SETS STATS, DOESNT WORK. NEED TO BE FIXED
-// POST ORDER DOESNT WORK, NEED TO BE FIXED

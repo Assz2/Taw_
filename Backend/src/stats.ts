@@ -53,8 +53,6 @@ statsSchema.methods.updateDaily = function(x: number){    // updateDaily
     this.dailySales += x;
 }
 
-
-
 export default mongoose.model<Stats>('Stats', statsSchema); // export model
 
 export function getSchemas(){
@@ -75,4 +73,5 @@ export function newStats(data: (mongoose.AnyKeys<Stats> | mongoose.AnyObject) | 
     var stats = new _statsModel(data);
     return stats;
 }   // export newStats
+
 
