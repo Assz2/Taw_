@@ -88,22 +88,13 @@ export class OrderHttpService {
 
   public updateOrderStatus(id: Number){
     this.getOrders(id).subscribe(data => {
-      var i = 0;
-      while(i < data.length && data[i].status != "READY"){
-        this.currentStatus = data[i].status;
-        i++;
-      }
-      
-      console.log("Current status: " + this.currentStatus);
-
-
-      if(this.currentStatus === "PENDING")
+      if(data.at(-1).status === "PENDING")
         this.newStatus = "QUEUE";
-      else if(this.currentStatus === "QUEUE")
+      else if(data.at(-1).status === "QUEUE")
         this.newStatus = "READY";
+      console.log("New status: " + this.newStatus);
 
       const update = {"status": this.newStatus};
-
       this.Http.put(this.url + '/orders/' + id, update, this.createOptions()).subscribe(
         (data) => {
           console.log("Received orders: " + JSON.stringify(data));

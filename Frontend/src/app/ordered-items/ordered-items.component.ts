@@ -25,6 +25,8 @@ export class OrderedItemsComponent implements AfterViewInit{
   public retrievedOrder: Order;
   public userRole: string;
   public actualStatus: string;
+  public total: number = 0;
+  public flag: Boolean;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private os: OrderHttpService,
               private it: ItemHttpService, private us: UserHttpService, private sio: SocketIoService) { }
@@ -38,7 +40,7 @@ export class OrderedItemsComponent implements AfterViewInit{
     console.log("User role: " + this.userRole);
 
     this.os.getOrders(this.parameterFromParent).subscribe(data => {
-      this.actualStatus = data[0].status;
+      this.actualStatus = data.at(-1).status;
     });
 
     
@@ -46,6 +48,8 @@ export class OrderedItemsComponent implements AfterViewInit{
       console.log("Received change: " + JSON.stringify(data));
       this.getOrders(-1);
     });
+
+    this.setFlag();
   }
   
   getOrderedItems() {
@@ -56,6 +60,7 @@ export class OrderedItemsComponent implements AfterViewInit{
           this.it.getItemByName(itemId).subscribe(retrItem => {
             console.log("Retrieved Item: " + JSON.stringify(retrItem));
             this.RetrievedItems.push(retrItem as Item);
+            this.total += retrItem.price;
             this.cdr.detectChanges();
           });
         });
@@ -79,7 +84,7 @@ export class OrderedItemsComponent implements AfterViewInit{
     this.os.updateOrderStatus(this.parameterFromParent);
     this.actualStatus = this.os.currentStatus;
     console.log("Actual status: " + this.actualStatus);
-    this.cdr.detectChanges();
+    //this.cdr.detectChanges();
   }
 
   deleteOrder(){
@@ -90,6 +95,22 @@ export class OrderedItemsComponent implements AfterViewInit{
           this.os.deleteOrder(element);
       });
     });
+    this.parameterFromParent = -1;
     this.router.navigate(['/orders']);
+  }
+
+  setFlag(){
+    this.os.getOrders(this.parameterFromParent).subscribe(data => {
+      data.forEach(element => {
+        if(element.status != "READY"){
+          setTimeout(() => {
+            this.flag = false;
+            return this.flag;
+          });
+        }
+        this.flag = true;
+        return this.flag;
+      });
+    });
   }
 }

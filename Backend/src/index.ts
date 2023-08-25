@@ -408,7 +408,6 @@ app.route('/orders/:id')
         }).catch((err) => {
            // FORSE DA PROBLEMI (to check) return res.status(500).json({error: true, errormessage: err});
         });
-
         return res.status(200).json({error: false, errormessage: "", order: data});
     }).catch((err) => {
         return res.status(500).json({error: true, errormessage: err});
