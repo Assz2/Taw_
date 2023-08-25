@@ -1,27 +1,29 @@
-<div class="container" style="width: 400px; margin-top: 17%;" >
-  <div class="form-signin text-center loginform ">
+<div class="container">
+  <form>
+    <div class="form-signin text-center loginform ">
 
-    <h1>Please sign in</h1>
+      <h1 style="opacity: 0.8;">SIGN-IN</h1>
 
-    <label for="inputName" class="sr-only"></label>
-    <input type="name" style="margin: 15px; align-items: center;" #nametxt id="inputName" class="form-control" placeholder="Insert Name" required>
-    
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" style="margin: 15px; align-items: center;" #passwdtxt id="inputPassword" class="form-control" placeholder="Insert Password" required>
-    
-    <div class="checkbox mb-3" style="margin-left: 40px;">
-      <label>
-        <input type="checkbox" #checkr value="remember-me"> remember me
-      </label>
+      <label for="inputName" class="sr-only"></label>
+      <input type="name" style="margin: 15px; align-items: center;" #nametxt id="inputName" class="form-control" placeholder="Insert Name" required>
+      
+      <label for="inputPassword" class="sr-only"></label>
+      <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="Insert Password" required>
+      
+      <div class="checkbox mb-3" style="margin-left: 40px;">
+        <label>
+          <input type="checkbox" #checkr value="remember-me"> remember me
+        </label>
+      </div>
+      
+      <div *ngIf="errMessage != ''" class="alert-danger" role="alert">
+        Login error: {{errMessage}}
+      </div>
+      
+      <div class="centerBtn" style="margin: 15px; align-items: center; margin-left: 40px;">
+        <button class="btn btn-lg btn-primary btn-block" (click)="login( nametxt.value, passwdtxt.value, checkr.checked );" >Sign in</button>
+      </div>
+      
     </div>
-    
-    <div *ngIf="errMessage != ''" class="alert-danger" role="alert">
-      Login error: {{errMessage}}
-    </div>
-    
-    <div class="centerBtn" style="margin: 15px; align-items: center; margin-left: 40px;">
-      <button class="btn btn-lg btn-primary btn-block" (click)="login( nametxt.value, passwdtxt.value, checkr.checked );" >Sign in</button>
-    </div>
-    
-  </div>
+  </form>
 </div>

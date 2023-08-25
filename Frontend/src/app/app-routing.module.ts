@@ -7,13 +7,15 @@ import { TableListComponent } from './table-list/table-list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ItemListComponent } from './item-list/item-list.component';
+import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
   { path:'', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login',  component: UserLoginComponent },
   { path: 'tables',  component: TableListComponent },
   { path: 'orders',  component: OrderListComponent },
-  { path: 'menu', component: ItemListComponent}
+  { path: 'menu', component: ItemListComponent },
+  { path: 'signup', component: SignupComponent }
 ];
 
 @NgModule({

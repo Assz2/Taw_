@@ -16,6 +16,7 @@ interface ReceivedToken {
 
 export interface User {
   name: string;
+  password: string;
   role: string;
   stats?: number;
   table?: number[];
@@ -67,6 +68,7 @@ export class UserHttpService {
   register(user: User): Observable<any>{
     const options = {
       headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.token,
         'cache-control': 'no-cache',
         'Content-Type': 'application/json'
       })

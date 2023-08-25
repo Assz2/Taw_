@@ -1,0 +1,43 @@
+<div class="container">
+    <form class="form-signing">
+        <div class="text-center">
+            <h1 style="opacity: 0.8;">SIGN-UP</h1>
+        </div>
+
+        <div class="form-group">
+            <label for="inputName">Name</label>
+            <input type="text" #name="ngModel" name="name" [(ngModel)]="user.name" class="form-control" id="inputName" placeholder="Enter name" required aria-describedby="nameHelp">
+        </div>
+
+        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Name is required
+        </div>
+
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" #password="ngModel" required name="password" [(ngModel)]="user.password" class="form-control" id="inputPassword" placeholder="Password">
+        </div>
+
+        <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+            Password is required
+        </div>
+
+        <div class="form-role">
+            <label for="inputRole">Role</label>
+            <select #role="ngModel" required name="role" [(ngModel)]="user.role" class="form-control" id="inputRole">
+                <option value="WAITER">WAITER</option>
+                <option value="COOK">COOK</option>
+                <option value="BARTENDER">BARTENDER</option>
+                <option value="CASHIER">CASHIER</option>
+            </select>
+        </div>
+
+        <div *ngIf="errmessage" class="alert alert-danger" role="alert">
+            Signup error: {{errmessage}}
+        </div>
+
+        <div class="btn-signup">
+            <button class="btn" [disabled]="!name.valid || !password.valid" (click)="signup()">Sign up</button>
+        </div>
+    </form>
+</div>

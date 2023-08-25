@@ -19,6 +19,7 @@ import { ItemHttpService } from './item-http.service';
 import { ItemListComponent } from './item-list/item-list.component';
 import { ItemListEditorComponent } from './item-list-editor/item-list-editor.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
+import { SignupComponent } from './signup/signup.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { UserEditorComponent } from './user-editor/user-editor.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
 
   // Components
@@ -40,7 +42,8 @@ import { UserEditorComponent } from './user-editor/user-editor.component';
     OrderedItemsComponent,
     ItemListComponent,
     ItemListEditorComponent,
-    UserEditorComponent
+    UserEditorComponent,
+    SignupComponent
   ],
   
   // Services
