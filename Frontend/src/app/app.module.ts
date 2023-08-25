@@ -20,6 +20,7 @@ import { ItemListComponent } from './item-list/item-list.component';
 import { ItemListEditorComponent } from './item-list-editor/item-list-editor.component';
 import { UserEditorComponent } from './user-editor/user-editor.component';
 import { SignupComponent } from './signup/signup.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { SignupComponent } from './signup/signup.component';
     ItemListComponent,
     ItemListEditorComponent,
     UserEditorComponent,
-    SignupComponent
+    SignupComponent,
+    UserListComponent
   ],
   
   // Services

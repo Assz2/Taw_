@@ -4,11 +4,15 @@
 
       <h1 style="opacity: 0.8;">SIGN-IN</h1>
 
-      <label for="inputName" class="sr-only"></label>
-      <input type="name" style="margin: 15px; align-items: center;" #nametxt id="inputName" class="form-control" placeholder="Insert Name" required>
+      <div class="style-form">
+        <label for="inputName" class="sr-only"></label>
+        <input type="name" style="margin: 15px; align-items: center;" #nametxt id="inputName" class="form-control" placeholder="Insert Name" required>
+      </div>
       
-      <label for="inputPassword" class="sr-only"></label>
-      <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="Insert Password" required>
+      <div class="style-form">
+        <label for="inputPassword" class="sr-only"></label>
+        <input type="password" #passwdtxt id="inputPassword" class="form-control" placeholder="Insert Password" required>
+      </div>
       
       <div class="checkbox mb-3" style="margin-left: 40px;">
         <label>
@@ -20,8 +24,8 @@
         Login error: {{errMessage}}
       </div>
       
-      <div class="centerBtn" style="margin: 15px; align-items: center; margin-left: 40px;">
-        <button class="btn btn-lg btn-primary btn-block" (click)="login( nametxt.value, passwdtxt.value, checkr.checked );" >Sign in</button>
+      <div class="center-btn">
+        <button class="btn" (click)="login( nametxt.value, passwdtxt.value, checkr.checked );" >Sign in</button>
       </div>
       
     </div>

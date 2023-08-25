@@ -1,0 +1,39 @@
+<div class="center-title">
+    <h1>USER LIST</h1>
+</div>
+
+<div *ngFor="let user of userList" class="grid-container">
+    <button class="grid-item">
+        <div class="user-div">
+            <div *ngIf="user.role === 'WAITER'" class="img-div">
+                <img src="assets/images/waiter-ico.png" alt="Waiter" style="width: 100px; height: 100px;">
+            </div>
+
+            <div *ngIf="user.role === 'COOK'" class="img-div">
+                <img src="assets/images/cook-ico.png" alt="Cook" style="width: 100px; height: 100px;">
+            </div>
+
+            <div *ngIf="user.role === 'BARTENDER'" class="img-div">
+                <img src="assets/images/alcool-drink.png" alt="Bartender" style="width: 100px; height: 100px;">
+            </div>
+
+            <div *ngIf="user.role === 'CASHIER'" class="img-div">
+                <img src="assets/images/cashier-ico.png" alt="Cashier" style="width: 100px; height: 100px;">
+            </div>
+
+            <div class="writes">
+                <div class="first-write">
+                    <h3> NAME: {{user.name}} &nbsp; </h3>
+                    <p style="opacity: 0.8;">ROLE: {{user.role}}</p>
+                    <div *ngIf="user.stats" class="stats"><p style="opacity: 0.8;">STATS: {{user.stats}}</p></div>
+                </div>
+            </div>
+        </div>
+    </button>
+    
+    <div class="delete" *ngIf="user.name != 'admin'">
+        <button class="btn" (click)="deleteUser(user.name)">
+            <img src="assets/images/delete-user.png" alt="Delete" style="width: 50px; height: 50px; margin-top: 5px;">
+        </button>
+    </div>
+</div>

@@ -14,6 +14,7 @@ export interface User{
     validatePassword(pwd: string): boolean;
     setRole(rl: string): void;
     getRole(): string;
+    setStats(): void;
 }
 
 var userSchema = new mongoose.Schema<User>({ // create schema
@@ -76,6 +77,15 @@ userSchema.methods.setRole = function(rl: string){
 
 userSchema.methods.getRole = function(){
     return this.role;
+}
+
+userSchema.methods.setStats = function(){
+    if(this.stats){
+        this.stats++;
+    }
+    else{
+        this.stats = 1;
+    }
 }
 
 export default mongoose.model<User>('User', userSchema); // export model

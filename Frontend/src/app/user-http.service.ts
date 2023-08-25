@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import jwt_decode from 'jwt-decode';
 
@@ -74,13 +74,44 @@ export class UserHttpService {
       })
     };
     return this.htpp.post(this.url + '/register', user, options).pipe(
+      map((data: any) => data.user),
       tap((data: any) => {
         console.log("Received: " + data);
       }
     ));
   };
-  
 
+  deleteUser(id: string): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.token,
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.htpp.delete(this.url + '/users/' + id, options).pipe(
+      tap((data: any) => {
+        console.log("Received: " + data);
+      }
+    ));
+  };
+
+  getUsers(): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + this.token,
+        'cache-control': 'no-cache',
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.htpp.get(this.url + '/users', options).pipe(
+      map((data: any) => data.users),
+      tap((data: any) => {
+        console.log("Received: " + JSON.stringify(data));
+      }
+    ));
+  };
+  
   getToken(): string {
     return this.token;
   }

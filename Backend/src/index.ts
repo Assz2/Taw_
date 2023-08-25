@@ -328,6 +328,12 @@ app.route('/orders')
             return res.status(500).json({error: true, errormessage: err});
         });
 
+        user.getModel().findOne({name: newOrder.associatedWaiter}).then((us: any) => {
+            if(us.role === 'WAITER'){
+                us.setStats();
+                us.save();
+            }
+        });
         //table set free = false
         table.getModel().findOneAndUpdate({tableId: newOrder.tableId}, {free: false}).then((data) => {
             data.save();
@@ -369,6 +375,13 @@ app.route('/orders/:id')
             });
             return res.status(200).json({error: false, errormessage: "", order: order});
         })
+
+        user.getModel().findOne({name: decoded.name}).then((us: any) => {
+            if(us.role === 'COOK' || us.role === 'BARTENDER'){
+                us.setStats();
+                us.save();
+            }
+        });
 
     } else {   
         return res.status(401).json({err: "Cashier, cook or bartender authorization required"});
