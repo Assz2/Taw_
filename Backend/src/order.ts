@@ -1,6 +1,7 @@
 import e = require('cors');
 import mongoose = require('mongoose');
 import * as it from './item';
+import * as Stats from './stats';
 
 export interface Order{ // define interface
     readonly _id: mongoose.Types.ObjectId;       // readonly _id
@@ -10,8 +11,11 @@ export interface Order{ // define interface
     status: string;                              // status
     total: number;                              // total                       
     timeStamp: Date;                             // timeStamp   
+    totalOrderedItems?: number;                  // totalOrderedItems
     
     setTotal(): void;                           // set total
+    setPopularity(): void;                      // set popularity
+    updateTotal(): number;                        // update total
 }
 
 
@@ -95,8 +99,6 @@ orderSchema.methods.setTotal = function(){
         this.total = tot;
     });
 }
-
-
 
 export default mongoose.model<Order>('Order', orderSchema); // export model
 
