@@ -58,7 +58,7 @@ export class OrderedItemsComponent implements AfterViewInit{
         this.retrievedOrder = element;
         element.items.forEach(itemId => {
           this.it.getItemByName(itemId).subscribe(retrItem => {
-            console.log("Retrieved Item: " + JSON.stringify(retrItem));
+            console.log("Retrieved Item: " + JSON.stringify(retrItem) + " with popularity: " + retrItem.popularity);
             this.RetrievedItems.push(retrItem as Item);
             this.total += retrItem.price;
             this.cdr.detectChanges();
@@ -96,6 +96,7 @@ export class OrderedItemsComponent implements AfterViewInit{
       });
     });
     this.parameterFromParent = -1;
+    this.getOrders(-1);
     this.router.navigate(['/orders']);
   }
 

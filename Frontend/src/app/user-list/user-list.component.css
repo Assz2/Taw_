@@ -1,6 +1,24 @@
+.go-back{
+    width: 65px;
+    height: 65px;
+    margin-top: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    justify-self: center;
+    align-self: center;
+    margin-bottom: 45px;
+    margin-right: 7px;
+}
+
+.go-back-text{
+    opacity: 0.8;
+    margin-bottom: -40px;
+    font-weight: bold;
+}
+
 .center-title{
     text-align: center;
-    margin-top: 50px;
+    margin-top: 60px;
     margin-bottom: 50px;
 }
 

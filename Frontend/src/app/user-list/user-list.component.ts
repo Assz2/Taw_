@@ -45,4 +45,8 @@ export class UserListComponent implements OnInit {
       }
     });
   }
+
+  public goToTables() {
+    this.route.navigate(['/tables']);
+  }
 }

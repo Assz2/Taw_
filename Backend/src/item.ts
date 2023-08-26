@@ -1,5 +1,6 @@
 import e = require('cors');
-import mongoose = require('mongoose');  
+import mongoose = require('mongoose'); 
+import * as od from './order'; 
 
 export interface Item{ // define interface
     readonly _id: mongoose.Types.ObjectId;      // readonly _id
@@ -8,6 +9,8 @@ export interface Item{ // define interface
     price: number;                              // price
     popularity: number;                         // popularity
     description: string;                        // description
+
+    updatePopularity(order: od.Order): void;                   // update popularity
 }
 
 var itemSchema = new mongoose.Schema<Item>({ // create schema
@@ -34,6 +37,14 @@ var itemSchema = new mongoose.Schema<Item>({ // create schema
     }
     
 });
+
+itemSchema.methods.updatePopularity = function(order: od.Order){
+    order.items.forEach((data) => {
+        if(data == this.name){
+            this.popularity += 1;
+        }
+    });
+}
 
 export default mongoose.model<Item>('Item', itemSchema); // export model
 

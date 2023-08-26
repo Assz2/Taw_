@@ -11,11 +11,8 @@ export interface Order{ // define interface
     status: string;                              // status
     total: number;                              // total                       
     timeStamp: Date;                             // timeStamp   
-    totalOrderedItems?: number;                  // totalOrderedItems
     
     setTotal(): void;                           // set total
-    setPopularity(): void;                      // set popularity
-    updateTotal(): number;                        // update total
 }
 
 
@@ -45,44 +42,6 @@ var orderSchema = new mongoose.Schema<Order>({ // create schema
         required: false
     }
 });
-
-/*
-orderSchema.methods.pushFood = function(food: string){
-    this.food?.push(food);
-    this.updateTotal(food);
-}
-
-orderSchema.methods.pushDrink = function(drink: string){
-    this.drinks?.push(drink);
-    this.updateTotal(drink);
-}
-
-orderSchema.methods.updateTotal = function(item: string){
-    it.getModel().findOne({name: item}, (err: any, item: any) =>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            this.total += item.price as number;
-        }
-    });
-}
-*/
-/*
-orderSchema.methods.setTotal = function(): number{
-    var total = 0;
-    this.items.forEach((data) => {
-        it.getModel().findOne({name: data}).then((item) => {
-            console.log(item + " with a price of:" + item.price);
-            total += item.price as number;
-            console.log("Total 1: " + total);
-        }).catch((err) => {
-            console.log(err);
-        })
-    });
-    console.log("Total 2: " + total);
-    return total;
-}*/
 
 orderSchema.methods.setTotal = function(){
     var tot = 0;

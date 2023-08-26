@@ -317,6 +317,15 @@ app.route('/orders')
 
     newOrder.timeStamp = new Date();
     await newOrder.setTotal();
+
+    newOrder.items.forEach((data) => {
+        menu.getModel().findOne({name: data}).then((item) => {
+            item.updatePopularity(newOrder);
+            console.log("Updating popularity of: " + item.name + " to: " + item.popularity);
+            item.save();
+        });
+    });
+
     console.log("New order: " + JSON.stringify(newOrder));
     order.getModel().create(newOrder).then((data) => {
 

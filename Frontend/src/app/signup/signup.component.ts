@@ -33,4 +33,8 @@ export class SignupComponent implements OnInit {
       }
     });
   }
+
+  goToTables() {
+    this.route.navigate(['/tables']);
+  }
 }

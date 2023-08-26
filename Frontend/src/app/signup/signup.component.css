@@ -1,5 +1,23 @@
+.go-back{
+    width: 65px;
+    height: 65px;
+    margin-top: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    justify-self: center;
+    align-self: center;
+    margin-bottom: 45px;
+    margin-right: 7px;
+}
+
+.go-back-text{
+    opacity: 0.8;
+    margin-bottom: -40px;
+    font-weight: bold;
+}
+
 .container{
-    margin-top: 17%;
+    margin-top: 8%;
     width: 500px;
 }
 
