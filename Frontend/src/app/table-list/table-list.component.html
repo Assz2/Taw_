@@ -9,21 +9,38 @@
 
 <div class="center">
     <div class="grid-container">
-        <button class="grid-item" *ngFor="let Table of tables" (click)="goToOrder(Table.tableId)">
-            <div *ngIf="Table.free==true" class="tb-free">
-                <p class="free-tb-number">{{Table.tableId}}</p>
-                <img src="assets/images/tableIco.png" alt="Table" class="free-table-image">
-                <p class="free-tb-seats"> TABLE SEATS: &nbsp;{{Table.seats}}</p>
+        <div *ngFor="let Table of tables">
+            <div class="grid-item">
+                <button class="table-btn" (click)="goToOrder(Table.tableId)">
+                    <div *ngIf="Table.free==true" class="tb-free">
+                        <p class="free-tb-number">{{Table.tableId}}</p>
+                        <img src="assets/images/tableIco.png" alt="Table" class="free-table-image">
+                        <p class="free-tb-seats"> TABLE SEATS: &nbsp;{{Table.seats}}</p>
+                    </div>
+                    
+                    <div *ngIf="Table.free==false" class="tb-occ">
+                        <p class="occ-tb-number">{{Table.tableId}}</p>
+                        <img src="assets/images/tableIco.png" alt="Table" class="occ-table-image">
+                        <p class="occ-tb-seats">TABLE SEATS: &nbsp;{{Table.seats}}</p>
+                    </div>
+                </button>
             </div>
             
-            <div *ngIf="Table.free==false" class="tb-occ">
-                <p class="occ-tb-number">{{Table.tableId}}</p>
-                <img src="assets/images/tableIco.png" alt="Table" class="occ-table-image">
-                <p class="occ-tb-seats">TABLE SEATS: &nbsp;{{Table.seats}}</p>
+            <div *ngIf="userRole === 'CASHIER'" class="bin-div">
+                <button class="bin-btn" (click)="deleteTable(Table.tableId)">
+                    <img src="assets/images/bin.png" alt="Bin" class="bin-img">
+                </button>
             </div>
-        </button>
+        </div>
+
+        <div *ngIf="userRole==='CASHIER'" class="plus-div">
+            <button class="plus-btn">
+                <img src="assets/images/add-item.png" alt="Plus" class="plus-img" (click)="routeAddTable()">
+            </button>
+        </div>
     </div>   
 </div>
+
 
 <br>
 <br>

@@ -1,0 +1,43 @@
+<button class="go-back-btn" style="margin-right: 20px; margin-top: 50px; width: 100px; height: 100px; 
+                                            border: 2px solid rgba(29, 163, 253, 0.532); border-radius: 50%; background-color: #ffffff;
+                                            overflow: hidden; display: flex; align-items: center; justify-content: center;">
+        <img src="assets/images/go-back.png" class="go-back" alt="Go Back" (click)="goToTables()">
+</button>
+<p class="go-back-text">GO BACK TO TABLE LIST</p>
+
+
+<div class="container">
+    <form class="form-signing">
+        <div class="text-center">
+            <h1 style="opacity: 0.8;">ADD TABLE</h1>
+        </div>
+
+        <div class="form-group">
+            <label for="tableId"></label>
+            <p class="text">ENTER TABLE'S NUMBER</p>
+            <input type="number" #name="ngModel" name="tableId" [(ngModel)]="table.tableId" class="form-control" id="tableId" required aria-describedby="idHelp" aria-required="true">
+        </div>
+
+        <div [hidden]="isValidId()" class="alert alert-danger">
+            Table-Id is required
+        </div>
+
+        <div class="form-group">
+            <label for="tableSeats"></label>
+            <p class="text">ENTER TABLE'S SEATS</p>
+            <input type="number" #password="ngModel" required name="seats" [(ngModel)]="table.seats" class="form-control" id="seats" aria-required="true">
+        </div>
+
+        <div [hidden]="isValidSeats()" class="alert alert-danger">
+            Seats is required
+        </div>
+
+        <div *ngIf="errmessage" class="alert alert-danger" role="alert">
+            Db error: {{errmessage}}
+        </div>
+
+        <div class="btn-save">
+            <button class="btn" [disabled]="!isValidId() || !isValidSeats() " (click)="addTable()">Add Table</button>
+        </div>
+    </form>
+</div>

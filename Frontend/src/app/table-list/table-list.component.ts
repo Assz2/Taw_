@@ -16,11 +16,13 @@ export class TableListComponent implements OnInit {
   
   public tables: Table[] = [];
   private filter: string = "";
+  public userRole: string;
 
   constructor(private router: Router, private ts: TableHttpService, public us: UserHttpService, public os: OrderHttpService) { }
 
   ngOnInit(){
     this.getTables();
+    this.userRole = this.us.getRole();
   }
 
   public getTables(){
@@ -47,6 +49,23 @@ export class TableListComponent implements OnInit {
   goToOrder(id: number){
     this.ts.inheritedFilter = id;
     this.router.navigate(['/orders']);
+  }
+
+  deleteTable(id: number){
+    this.ts.deleteTable(id).subscribe({
+      next: (data) => {
+        console.log("Deleted table: " + JSON.stringify(data));
+        this.getTables();
+      },
+      error: (err) => {
+        console.log("Error: " + JSON.stringify(err));
+        this.logout();
+      }
+    });
+  }
+
+  routeAddTable(){
+    this.router.navigate(['/addtb']);
   }
 
   logout(){

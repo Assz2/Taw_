@@ -49,6 +49,19 @@ export class TableHttpService {
     return this.http.get<Table[]>(this.url + '/tables', this.createOptions({free: filter})).pipe(
       map( (data: any) => data.tables),
       tap( (data) => console.log("Received tables: " + JSON.stringify(data)) ),
+    );
+  }
+
+  postTable(table: Table): Observable<Table>{
+    return this.http.post<Table>(this.url + '/tables', table, this.createOptions()).pipe(
+      map( (data: any) => data.table),
+      tap( (data) => console.log("Posted table: " + JSON.stringify(data)) )
+    );
+  }
+
+  deleteTable(id: number): Observable<Table>{
+    return this.http.delete<Table>(this.url + '/tables/' + id, this.createOptions()).pipe(
+      tap( (data) => console.log("Deleted table: " + JSON.stringify(data)) ),
       catchError(this.handleError)
     );
   }

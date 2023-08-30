@@ -21,6 +21,8 @@ import { ItemListEditorComponent } from './item-list-editor/item-list-editor.com
 import { UserEditorComponent } from './user-editor/user-editor.component';
 import { SignupComponent } from './signup/signup.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { ItemManagementComponent } from './item-management/item-management.component';
+import { TableManagementComponent } from './table-management/table-management.component';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { UserListComponent } from './user-list/user-list.component';
     ItemListEditorComponent,
     UserEditorComponent,
     SignupComponent,
-    UserListComponent
+    UserListComponent,
+    ItemManagementComponent,
+    TableManagementComponent
   ],
   
   // Services
