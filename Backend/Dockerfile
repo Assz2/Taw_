@@ -1,13 +1,10 @@
-FROM node:12.18.1
-
-WORKDIR /app
-
-COPY package.json package.json
-COPY package-lock.json package-lock.json
-COPY tsconfig.json tsconfig.json
-
-RUN npm install && npm install typescript --save-dev
-
-COPY . dist/ ./
-
-CMD [ "node", "index.js" ]
+FROM node:lts-alpine
+ENV NODE_ENV=production
+WORKDIR /usr/src/app
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install --production --silent && mv node_modules ../
+COPY . .
+EXPOSE 3000
+RUN chown -R node /usr/src/app
+USER node
+CMD ["npm", "start"]
