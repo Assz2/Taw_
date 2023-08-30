@@ -23,6 +23,7 @@ import { SignupComponent } from './signup/signup.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { ItemManagementComponent } from './item-management/item-management.component';
 import { TableManagementComponent } from './table-management/table-management.component';
+import { AddItemComponent } from './add-item/add-item.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { TableManagementComponent } from './table-management/table-management.co
     SignupComponent,
     UserListComponent,
     ItemManagementComponent,
-    TableManagementComponent
+    TableManagementComponent,
+    AddItemComponent
   ],
   
   // Services

@@ -94,4 +94,18 @@ export class ItemHttpService {
       catchError(this.handleError)
     );
   }
+
+  public deleteItem(name: string): Observable<Item>{
+    return this.Http.delete<Item>(this.url + '/menu/' + name, this.createOptions()).pipe(
+      tap( (data) => console.log("Deleted item: " + JSON.stringify(data)) ),
+      catchError(this.handleError)
+    );
+  }
+
+  public postItem(item: Item): Observable<Item>{
+    return this.Http.post<Item>(this.url + '/menu', item, this.createOptions()).pipe(
+      tap( (data) => console.log("Posted item: " + JSON.stringify(data)) ),
+      catchError(this.handleError)
+    );
+  }
 }

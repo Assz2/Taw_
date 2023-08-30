@@ -1,0 +1,64 @@
+<button class="go-back-btn" style="margin-right: 20px; margin-top: 50px; width: 100px; height: 100px; 
+                                            border: 2px solid rgba(29, 163, 253, 0.532); border-radius: 50%; background-color: #ffffff;
+                                            overflow: hidden; display: flex; align-items: center; justify-content: center;">
+        <img src="assets/images/go-back.png" class="go-back" alt="Go Back" (click)="goToTables()">
+</button>
+<p class="go-back-text">GO BACK TO TABLE LIST</p>
+
+
+<div class="container">
+    <form class="form-signing">
+        <div class="text-center">
+            <h1 style="opacity: 0.8;">ADD ITEM</h1>
+        </div>
+
+        <div class="form-group">
+            <label for="name"></label>
+            <p class="text">ENTER ITEM'S NAME</p>
+            <input type="name" #name="ngModel" name="name" [(ngModel)]="item.name" class="form-control" id="tableId" required aria-describedby="idHelp" aria-required="true">
+        </div>
+
+        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Name is required
+        </div>
+
+
+        <div class="form-role">
+            <label for="type"></label>
+            <p class="text">ENTER ITEM'S TYPE</p>
+            <select #type="ngModel" required name="type" [(ngModel)]="item.type" class="form-control" id="type">
+                <option value="food">food</option>
+                <option value="drink">drink</option>
+                <option value="alcool">alcool</option>
+            </select>
+        </div>
+
+        <div [hidden]="type.valid || type.pristine" class="alert alert-danger">
+            Type is required
+        </div>
+
+        <div class="form-price">
+            <label for="price"></label>
+            <p class="text">ENTER ITEM'S PRICE</p>
+            <input type="number" #price="ngModel" required name="price" [(ngModel)]="item.price" class="form-control" id="price" aria-required="true">
+        </div>
+
+        <div [hidden]="isValidPrice()" class="alert alert-danger">
+            Price is required
+        </div>
+
+        <div class="form-description">
+            <label for="description"></label>
+            <p class="text">ENTER ITEM'S DESCRIPTION</p>
+            <input type="text" #description="ngModel" name="description" [(ngModel)]="item.description" class="form-control" id="description">
+        </div>
+
+        <div *ngIf="errmessage" class="alert alert-danger" role="alert">
+            Db error: {{errmessage}}
+        </div>
+
+        <div class="btn-save">
+            <button class="btn" [disabled]="!name.valid || !type.valid || !isValidPrice()" (click)="addItem()">Add Item</button>
+        </div>
+    </form>
+</div>

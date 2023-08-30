@@ -1,1 +1,61 @@
-<p>item-management works!</p>
+<button class="go-back-btn" style="margin-right: 20px; margin-top: 50px; width: 100px; height: 100px; 
+                                            border: 2px solid rgba(29, 163, 253, 0.532); border-radius: 50%; background-color: #ffffff;
+                                            overflow: hidden; display: flex; align-items: center; justify-content: center;">
+        <img src="assets/images/go-back.png" class="go-back" alt="Go Back" (click)="goToTables()">
+</button>
+<p class="go-back-text">GO BACK TO TABLE LIST</p>
+
+
+<div class="center-title">
+    <h1>MENU ITEMS LIST</h1>
+</div>
+
+<div class="add-item">
+    <button class="plus-btn">
+        <img src="assets/images/add-item.png" alt="Plus" class="plus-img" (click)="routeAddItem()">
+    </button>
+</div>
+
+<div class="grid-container">
+    <div *ngFor="let item of itemList">
+        <button class="grid-item">
+            <div class="item-div">
+                <div *ngIf="item.type === 'food'" class="img-div">
+                    <img src="assets/images/food.png" alt="Food" style="width: 100px; height: 100px;">
+                </div>
+
+                <div *ngIf="item.type === 'alcool'" class="img-div">
+                    <img src="assets/images/alcool-drink.png" alt="Alcool" style="width: 100px; height: 100px;">
+                </div>
+
+                <div *ngIf="item.type === 'drink'" class="img-div">
+                    <img src="assets/images/non-alcool-drink.png" alt="Drink" style="width: 100px; height: 100px;">
+                </div>
+
+                <div class="writes">
+                    <div class="first-write">
+                        <h3> NAME: {{item.name}} &nbsp; </h3>
+                        <h3> TYPE: {{item.type}} &nbsp; </h3>
+                        <h3> PRICE: {{item.price}}€ &nbsp; </h3>
+
+                        <div class="write-pop">
+                            <p class="pop-write-style">POPULARITY: &nbsp; <progress max="100" value="item.popularity"></progress></p>
+                        </div>
+
+                        <div *ngIf="item.description" class="description">
+                            <div class="fix-height">
+                                <p class="descrip-write-style">description: {{item.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </button>
+    
+        <div class="delete">
+            <button class="btn" (click)="deleteItem(item.name)">
+                <img src="assets/images/delete-user.png" alt="Delete" class="btn-img">
+            </button>
+        </div>  
+    </div>
+</div>
