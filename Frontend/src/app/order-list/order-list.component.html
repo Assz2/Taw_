@@ -27,6 +27,7 @@
                 <div class="first-write">
                     <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
                     <p style="margin-left: -156px; position:relative; opacity: 0.8;">waiter: {{Order.associatedWaiter}}</p>
+                    <p class="date">{{Order.timeStamp | date}} / {{Order.timeStamp | date:'shortTime'}}</p>
                 </div>
             </div>
         </div>
@@ -42,6 +43,7 @@
                 <div class="first-write">
                     <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
                     <p style="margin-left: -156px; position:relative; opacity: 0.8;">waiter: {{Order.associatedWaiter}}</p>
+                    <p class="date">{{Order.timeStamp | date}} / {{Order.timeStamp | date:'shortTime'}}</p>
                 </div>
             </div>
         </div>
@@ -57,6 +59,7 @@
                     <div class="first-write">
                         <h3> TABLE ORDER: {{Order.tableId}} &nbsp; </h3>
                         <p style="margin-left: -156px; position:relative; opacity: 0.8;">waiter: {{Order.associatedWaiter}}</p>
+                        <p class="date">{{Order.timeStamp | date}} / {{Order.timeStamp | date:'shortTime'}}</p>
                     </div>
                 </div>
         </div>

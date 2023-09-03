@@ -13,7 +13,7 @@
         </div>
         
         <div class="write-pop">
-            <p class="pop-write-style">POPULARITY: &nbsp; <progress max="100" value="Item.popularity"></progress></p>
+            <p class="pop-write-style">POPULARITY: &nbsp; <progress max="100" [value]="Item.popularity"></progress></p>
         </div>
 
         <div class="description" *ngIf="Item.description">
