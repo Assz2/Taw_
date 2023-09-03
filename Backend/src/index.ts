@@ -8,11 +8,10 @@
  *  
  *      /register             None                         POST                     Register a new user (authorization required) (only cashier can register new users)
  * 
- *      /users                ?role=                       GET                      Returns a list of all users eventually filtered by role (authorization required) (only cashier can get users by role)
+ *      /users                None                         GET                      Returns a list of all users(authorization required) (only cashier can get users)
  * 
- *      /users/:name          None                         GET                      Returns a user by id (authorization required) (only cashier can get users by id)
  * 
- *      /users/:name          None                         DELETE                   Removes a user by id (authorization required) (only cashier can delete users by id)
+ *      /users/:name          None                         DELETE                   Removes a user by name (authorization required) (only cashier can delete users by id)
  * 
  * 
  * 
@@ -24,14 +23,12 @@
  *      
  *      
  *      
- *      /orders               ?tb=                         GET                      Returns a list of all orders grouped by table id 
- *                            ?status=                                              and eventually filtered by status(authorization required)
+ *      /orders               ?tb=                         GET                      Returns a list of all orders grouped by table id (authorization required)
  * 
  *      /orders               None                         POST                     Creates a new order (authorization required)
  * 
  *      /orders/:id           None                         PUT                      Updates an order by id (authorization required) (only cooks, bartenders or cashier can update orders by id)
  * 
- *      /orders/:id           None                         GET                      Returns an order by id (authorization required) (only cashier can get orders by id)
  * 
  *      /orders/:id           None                         DELETE                   Removes an order by id (authorization required) (only cashier can delete orders by id)
  * 
@@ -39,7 +36,6 @@
  * 
  *     /menu                  ?type=                       GET                      Returns a list of all menu items eventually filtered by type (food or drinks) (authorization required)
  * 
- *     /menu/:name            None                         GET                      Returns a menu item by id (authorization required)
  *  
  *     /menu/:name            None                         DELETE                   Removes a menu item by id (authorization required) (only cashier can delete menu items by id)
  * 
@@ -220,6 +216,7 @@ app.get('/users', auth, authCashier, (req, res) => {
     }); 
 });
 
+/*
 app.get('/users/:name', auth, authCashier, (req: any, res) => {
     console.log("Getting user: " + req.params.name);
     user.getModel().findOne({name: req.params.name}).then((data) => {
@@ -228,6 +225,7 @@ app.get('/users/:name', auth, authCashier, (req: any, res) => {
         return res.status(500).json({error: true, errormessage: err});
     });
 });
+*/
 
 app.delete('/users/:name', auth, authCashier, (req: any, res) => {
     console.log("Deleting user: " + req.params.name);
