@@ -8,3 +8,6 @@ docker-compose.debug.yml
 .vscode
 Backend/node_modules
 Frontend/node_modules
+Dockerfile
+Backend/Dockerfile
+Frontend/Dockerfile
